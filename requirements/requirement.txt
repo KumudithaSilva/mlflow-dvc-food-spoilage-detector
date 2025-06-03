@@ -1,4 +1,4 @@
-tensorflow==2.12.0
+tensorflow==2.13
 pandas
 gdown
 dvc
@@ -16,4 +16,4 @@ types-pyYAML
 scipy
 Flask
 Flask-Cors
--e .
+-e . # This is run the setup.py file
