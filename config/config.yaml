@@ -1,0 +1,7 @@
+artifacts_root: artifacts
+
+data_ingestion:
+  root_dir: artifacts/data_ingestion
+  source_URL: https://drive.google.com/file/d/1ORlqNeY3OnD7nHNDJ_NTN93QvyurvZvh/view?usp=sharing
+  local_datafile: artifacts/data_ingestion/fsd.zip
+  unzip_dir: artifacts/data_ingestion

@@ -1,5 +1,6 @@
 import os
 from box.exceptions import BoxValueError
+import numpy as np
 from utils import logger
 import json
 import joblib
@@ -28,6 +29,7 @@ def read_yaml(path_to_yaml: Path) -> ConfigBox:
         Exception: For other YAML loading issues.
     """
     if not path_to_yaml.exists():
+        logger.info(f"YAML file {path_to_yaml} not found")
         raise FileNotFoundError(f"YAML file not found at: {path_to_yaml}")
     try:
         with open(path_to_yaml, 'r') as yaml_file:
@@ -44,7 +46,25 @@ def read_yaml(path_to_yaml: Path) -> ConfigBox:
 
 @ensure_annotations
 def create_directories(path_to_dirs: list, verbose=True):
-    pass
+    """
+    Creates directories from a list of Path objects.
+
+    Args:
+        path_to_dirs (List[Path]): A list of directory paths to create.
+        verbose (bool): If True, logs directory creation status.
+
+    Raises:
+        Exception: If directory creation fails for reasons other than already existing.
+    """
+    for path in path_to_dirs:
+        try:
+            os.makedirs(path, exist_ok=True)
+            if verbose:
+                logger.info(f"Directory created at {path}")
+        except Exception as e:
+            logger.info(f"Error creating directory at {path}")
+            raise e
+
 
 @ensure_annotations
 def save_json(path_to_save: Path, data: dict):
@@ -72,4 +92,32 @@ def encode_image_B64(path_to_image: Path) -> base64:
 
 @ensure_annotations
 def dencode_image(image_string: str, filename: str):
+    pass
+
+@ensure_annotations
+def resize_image(image_path: Path, size: tuple)-> np.ndarray:
+    pass
+
+@ensure_annotations
+def rotate_image(image: np.ndarray, angle: float) -> np.ndarray:
+    pass
+
+@ensure_annotations
+def flip_image(image: np.ndarray, horizontal: bool = True) -> np.ndarray:
+    pass
+
+@ensure_annotations
+def change_brightness(image: np.ndarray, factor: float) -> np.ndarray:
+    pass
+
+@ensure_annotations
+def change_contrast(image: np.ndarray, factor: float) -> np.ndarray:
+    pass
+
+@ensure_annotations
+def convert_to_grayscale(image: np.ndarray) -> np.ndarray:
+    pass
+
+@ensure_annotations
+def change_rgb_channels(image: np.ndarray, r: float, g: float, b: float) -> np.ndarray:
     pass

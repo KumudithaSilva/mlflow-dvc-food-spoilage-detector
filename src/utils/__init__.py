@@ -15,8 +15,8 @@ log_dir = "logs"
 log_file_name = "running_logs.log"
 
 # Create logs directory if not exists
-os.makedirs(f"{log_dir}", exist_ok=True)
-log_file = f"{log_dir}/{log_file_name}"
+os.makedirs(f"../{log_dir}", exist_ok=True)
+log_file = f"../{log_dir}/{log_file_name}"
 
 logging.basicConfig(
     level=logging.INFO,
