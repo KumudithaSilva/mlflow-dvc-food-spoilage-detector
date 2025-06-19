@@ -13,6 +13,7 @@ list_of_folders = [
     f"{project_name}/models/__init__.py", 
     f"{project_name}/utils/__init__.py",
     f"{project_name}/config/__init__.py",
+    f"{project_name}/components/__init__.py",
     f"{project_name}/config/configuration.py",
     f"{project_name}/pipeline/__init__.py",
     f"{project_name}/entity/__init__.py",
