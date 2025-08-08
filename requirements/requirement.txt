@@ -1,4 +1,5 @@
 tensorflow==2.13
+visualkeras==0.1.4
 pandas
 gdown
 dvc
