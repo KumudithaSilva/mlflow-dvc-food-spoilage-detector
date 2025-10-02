@@ -1,0 +1,20 @@
+tensorflow==2.13
+visualkeras==0.1.4
+pandas
+gdown
+dvc
+mlflow==2.2.2
+notebook
+numpy
+matplotlib
+seaborn
+python-box==6.0.2
+pyYAML
+tqdm
+ensure==1.0.2
+joblib
+types-pyYAML
+scipy
+Flask
+Flask-Cors
+-e . # This is run the setup.py file
