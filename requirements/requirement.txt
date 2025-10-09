@@ -17,4 +17,10 @@ types-pyYAML
 scipy
 Flask
 Flask-Cors
+rarfile==4.2
 -e . # This is run the setup.py file
+
+# Install rarfile dependency
+# sudo apt install unrar         Ubuntu/Debian
+# sudo dnf install unrar         Fedora
+# brew install unrar             macOS (Homebrew)
