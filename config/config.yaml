@@ -2,8 +2,8 @@ artifacts_root: artifacts
 
 data_ingestion:
   root_dir: artifacts/data_ingestion
-  source_URL: https://drive.google.com/file/d/1ORlqNeY3OnD7nHNDJ_NTN93QvyurvZvh/view?usp=sharing
-  local_datafile: artifacts/data_ingestion/fsd.zip
+  source_URL: https://drive.google.com/file/d/1wUOvq1aDOx8qyERt7L2d2taeaVAiV6Le/view?usp=sharing
+  local_datafile: artifacts/data_ingestion/food_spoilage.rar
   unzip_dir: artifacts/data_ingestion
 
 prepare_base_model:
