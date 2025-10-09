@@ -1,6 +1,7 @@
 from entity.config_entity import DataIngestionConfig
 import os
 import zipfile
+import rarfile
 import gdown
 from utils import logger
 
@@ -25,5 +26,13 @@ class DataIngestion:
     def extract_zip_file(self):
         unzip_path = self.config.unzip_dir
         os.makedirs(unzip_path, exist_ok=True)
-        with zipfile.ZipFile(self.config.local_datafile, 'r') as zip_ref:
-            zip_ref.extractall(unzip_path)
+        file_path = self.config.local_datafile
+
+        if file_path.endswith('.zip'):
+            with zipfile.ZipFile(file_path, 'r') as zip_ref:
+                zip_ref.extractall(unzip_path)
+        elif file_path.endswith('.rar'):
+            with rarfile.RarFile(file_path) as rar_ref:
+                rar_ref.extractall(unzip_path)
+        else:
+            raise Exception("File format not supported for extraction. Only .zip and .rar are supported.")
