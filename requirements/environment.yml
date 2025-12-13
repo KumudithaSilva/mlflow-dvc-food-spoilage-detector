@@ -1,0 +1,29 @@
+name: fsd-env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - tensorflow=2.13
+  - visualkeras=0.1.4
+  - pandas
+  - gdown
+  - dvc
+  - mlflow=2.2.2
+  - notebook
+  - numpy
+  - matplotlib
+  - seaborn
+  - python-box=6.0.2
+  - pyyaml
+  - tqdm
+  - ensure=1.0.2
+  - joblib
+  - types-pyyaml
+  - scipy
+  - flask
+  - flask-cors
+  - rarfile=4.2
+  - unrar
+  - pip
+  - pip:
+      - -e .
