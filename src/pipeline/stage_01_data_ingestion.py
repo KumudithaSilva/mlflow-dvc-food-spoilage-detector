@@ -5,6 +5,7 @@ from utils import logger
 
 STAGE_NAME = "Data Ingestion Stage"
 
+
 class DataIngestionTraningPipeline:
     def __init__(self):
         pass
@@ -13,7 +14,7 @@ class DataIngestionTraningPipeline:
         try:
             # Initilize the ConfigurationManager
             config = ConfigurationManager()
-            # Get the config yaml file details 
+            # Get the config yaml file details
             data_ingestion_config = config.get_data_ingestion_config()
             # Initilize the DataIngestion
             data_ingestion = DataIngestion(config=data_ingestion_config)
@@ -23,6 +24,7 @@ class DataIngestionTraningPipeline:
             data_ingestion.extract_zip_file()
         except Exception as e:
             raise e
+
 
 if __name__ == '__main__':
     try:
