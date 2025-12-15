@@ -1,6 +1,6 @@
+import logging
 import os
 import sys
-import logging
 
 """
 
@@ -21,13 +21,12 @@ log_file = f"{log_dir}/{log_file_name}"
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(name)s | %(levelname)s | %(filename)s:%(lineno)d | %(message)s",
-
     handlers=[
-         # Write log messages to the specified file
+        # Write log messages to the specified file
         logging.FileHandler(log_file),
-         # Write log messages to the specified file
-        logging.StreamHandler(sys.stdout)
-    ]
+        # Write log messages to the specified file
+        logging.StreamHandler(sys.stdout),
+    ],
 )
 
 logger = logging.getLogger("fsd_logger")
