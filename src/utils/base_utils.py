@@ -1,12 +1,11 @@
 import os
-from box.exceptions import BoxValueError
-import numpy as np
-from utils import logger
-from ensure import ensure_annotations
-from box import ConfigBox
 from pathlib import Path
-from typing import Any
+
 import yaml
+from box import ConfigBox
+from ensure import ensure_annotations
+
+from utils import logger
 
 
 @ensure_annotations
@@ -35,11 +34,11 @@ def read_yaml(path_to_yaml: Path) -> ConfigBox:
                 raise ValueError(f"YAML file is empty: {path_to_yaml}")
             logger.info(f"YAML file {path_to_yaml} loaded successfully")
             return ConfigBox(content)
-        
+
     except yaml.YAMLError as e:
         logger.error(f"Error parsing YAML file: {e}")
         raise e
-        
+
 
 @ensure_annotations
 def create_directories(path_to_dirs: list, verbose=True):
@@ -61,6 +60,7 @@ def create_directories(path_to_dirs: list, verbose=True):
         except Exception as e:
             logger.info(f"Error creating directory at {path}")
             raise e
+
 
 # @ensure_annotations
 # def save_json(path_to_save: Path, data: dict):
