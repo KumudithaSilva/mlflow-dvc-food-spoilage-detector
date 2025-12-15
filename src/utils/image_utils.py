@@ -1,21 +1,13 @@
-import os
-from box.exceptions import BoxValueError
-import numpy as np
-from utils import logger
-import json
-import joblib
-from ensure import ensure_annotations
-from box import ConfigBox
 from pathlib import Path
-from typing import Any
-import base64
-import yaml
+
+from ensure import ensure_annotations
 from PIL import Image
-from typing import Sequence
+
+from utils import logger
 
 
 @ensure_annotations
-def reshape_image(image_path: Path,  image_size: tuple) -> Image.Image:
+def reshape_image(image_path: Path, image_size: tuple) -> Image.Image:
     """
     Resizes an image to a fixed size and ensures 3 RGB channels.
 
@@ -33,6 +25,7 @@ def reshape_image(image_path: Path,  image_size: tuple) -> Image.Image:
     except Exception:
         logger.exception(f"Failed to resize image: {image_path}")
         raise
+
 
 # @ensure_annotations
 def save_image(image: Image.Image, save_path: Path) -> None:
