@@ -18,7 +18,6 @@ class ConfigurationManager:
 
     def get_data_ingestion_config(self) -> DataIngestionConfig:
         config = self.config.data_ingestion
-        create_directories([self.config.artifacts_root])
 
         data_ingestion_config = DataIngestionConfig(
             root_dir=config.root_dir,
@@ -30,7 +29,6 @@ class ConfigurationManager:
 
     def get_data_preprocess_config(self) -> DataPreprocessingConfig:
         config = self.config.data_preprocessing
-        create_directories([self.config.artifacts_root])
 
         data_preproess_config = DataPreprocessingConfig(
             root_dir=config.root_dir,
@@ -42,7 +40,6 @@ class ConfigurationManager:
 
     def get_prepare_base_model_config(self) -> PrepareBaseModelConfig:
         config = self.config.prepare_base_model
-        create_directories([self.config.artifacts_root])
 
         prepare_base_model_config = PrepareBaseModelConfig(
             root_dir=Path(config.root_dir),
