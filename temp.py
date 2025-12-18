@@ -2,7 +2,7 @@ import logging
 import os
 from pathlib import Path
 
-logging.basicConfig(level=logging.INFO, format='[%(asctime) : %(message)s:]')
+logging.basicConfig(level=logging.INFO, format="[%(asctime) : %(message)s:]")
 
 project_name = "src"
 
