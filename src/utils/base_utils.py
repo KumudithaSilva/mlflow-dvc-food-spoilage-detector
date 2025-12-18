@@ -28,7 +28,7 @@ def read_yaml(path_to_yaml: Path) -> ConfigBox:
         logger.info(f"YAML file {path_to_yaml} not found")
         raise FileNotFoundError(f"YAML file not found at: {path_to_yaml}")
     try:
-        with open(path_to_yaml, 'r') as yaml_file:
+        with open(path_to_yaml, "r") as yaml_file:
             content = yaml.safe_load(yaml_file)
             if content is None:
                 raise ValueError(f"YAML file is empty: {path_to_yaml}")

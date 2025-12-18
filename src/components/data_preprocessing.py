@@ -39,9 +39,9 @@ class DataPreprocessing:
             # Recursively iterate all image files in class_dir
             for img_file in class_dir.rglob("*"):
                 if img_file.is_file() and img_file.suffix.lower() in [
-                    '.jpg',
-                    '.jpeg',
-                    '.png',
+                    ".jpg",
+                    ".jpeg",
+                    ".png",
                 ]:
                     try:
                         # Resize image

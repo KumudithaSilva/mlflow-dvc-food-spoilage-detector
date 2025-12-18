@@ -26,7 +26,7 @@ class DataIngestionTraningPipeline:
             raise e
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         logger.info(f">>>>> STAGE {STAGE_NAME} STARTED <<<<<")
         data_ingestion = DataIngestionTraningPipeline()

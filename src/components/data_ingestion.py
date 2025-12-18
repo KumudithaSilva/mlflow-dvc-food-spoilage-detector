@@ -33,10 +33,10 @@ class DataIngestion:
         os.makedirs(unzip_path, exist_ok=True)
         file_path = self.config.local_datafile
 
-        if file_path.endswith('.zip'):
-            with zipfile.ZipFile(file_path, 'r') as zip_ref:
+        if file_path.endswith(".zip"):
+            with zipfile.ZipFile(file_path, "r") as zip_ref:
                 zip_ref.extractall(unzip_path)
-        elif file_path.endswith('.rar'):
+        elif file_path.endswith(".rar"):
             with rarfile.RarFile(file_path) as rar_ref:
                 rar_ref.extractall(unzip_path)
         else:
