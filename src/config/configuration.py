@@ -1,8 +1,9 @@
+import os
 from pathlib import Path
 
 from constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from entity.config_entity import (DataIngestionConfig, DataPreprocessingConfig,
-                                  PrepareBaseModelConfig)
+                                  PrepareBaseModelConfig, TrainingConfig)
 from utils.base_utils import create_directories, read_yaml
 
 
@@ -10,7 +11,7 @@ class ConfigurationManager:
 
     def __init__(self, config_filepath=CONFIG_FILE_PATH, param_path=PARAMS_FILE_PATH):
         self.config = read_yaml(config_filepath)
-        self.param = read_yaml(param_path)
+        self.params = read_yaml(param_path)
 
         create_directories([self.config.artifacts_root])
 
@@ -44,10 +45,36 @@ class ConfigurationManager:
             base_model_path=Path(config.base_model_path),
             updated_base_model_path=Path(config.updated_base_model_path),
             updated_base_model_image_path=Path(config.updated_base_model_image_path),
-            params_image_size=self.param.IMAGE_SIZE,
-            params_learning_rate=self.param.LEARNING_RATE,
-            params_include_top=self.param.INCLUDE_TOP,
-            params_weights=self.param.WEIGHTS,
-            params_classes=self.param.CLASSES,
+            params_image_size=self.params.IMAGE_SIZE,
+            params_learning_rate=self.params.LEARNING_RATE,
+            params_include_top=self.params.INCLUDE_TOP,
+            params_weights=self.params.WEIGHTS,
+            params_classes=self.params.CLASSES,
         )
         return prepare_base_model_config
+
+    def get_training_config(self) -> TrainingConfig:
+        training_config = self.config.training
+        prepare_base_model_config = self.config.prepare_base_model
+        params = self.params
+        training_data = os.path.join(
+            self.config.data_preprocessing.root_dir, "Food_Spoilage_Dataset"
+        )
+
+        create_directories([training_config.root_dir])
+
+        training_config = TrainingConfig(
+            root_dir=Path(training_config.root_dir),
+            trained_model_path=Path(training_config.trained_model_path),
+            updated_base_model_path=Path(
+                prepare_base_model_config.updated_base_model_path
+            ),
+            training_data=Path(training_data),
+            params_epochs=params.EPOCHS,
+            params_batch_size=params.BATCH_SIZE,
+            params_is_augmentation=params.AUGMENTATION,
+            params_image_size=params.IMAGE_SIZE,
+            params_learning_rate=params.LEARNING_RATE,
+        )
+
+        return training_config
