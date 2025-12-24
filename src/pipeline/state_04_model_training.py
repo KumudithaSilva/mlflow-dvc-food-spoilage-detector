@@ -5,6 +5,7 @@ from utils import logger
 
 STAGE_NAME = "Model Training Stage"
 
+
 class TraningPipeline:
     def __init__(self):
         pass
@@ -20,6 +21,7 @@ class TraningPipeline:
             prepare_train_model.save_model()
         except Exception as e:
             raise e
+
 
 if __name__ == "__main__":
     try:
