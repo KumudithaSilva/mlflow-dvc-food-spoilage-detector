@@ -1,6 +1,7 @@
 from pipeline.stage_01_data_ingestion import DataIngestionTraningPipeline
 from pipeline.state_02_data_preprocess import DataPreprocessTraningPipeline
-from pipeline.state_03_prepare_base_model import PrepareBaseModelTraningPipeline
+from pipeline.state_03_prepare_base_model import \
+    PrepareBaseModelTraningPipeline
 from pipeline.state_04_model_training import TraningPipeline
 from utils import logger
 
