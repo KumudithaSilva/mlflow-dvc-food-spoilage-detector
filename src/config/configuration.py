@@ -2,12 +2,8 @@ import os
 from pathlib import Path
 
 from constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
-from entity.config_entity import (
-    DataIngestionConfig,
-    DataPreprocessingConfig,
-    PrepareBaseModelConfig,
-    TrainingConfig,
-)
+from entity.config_entity import (DataIngestionConfig, DataPreprocessingConfig,
+                                  PrepareBaseModelConfig, TrainingConfig)
 from utils.base_utils import create_directories, read_yaml
 
 
