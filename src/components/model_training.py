@@ -1,4 +1,5 @@
 import tensorflow as tf
+
 from entity.config_entity import TrainingConfig
 
 
