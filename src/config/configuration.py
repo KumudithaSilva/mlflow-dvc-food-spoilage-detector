@@ -3,7 +3,7 @@ from pathlib import Path
 
 from constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from entity.config_entity import (DataIngestionConfig, DataPreprocessingConfig,
-                                  PrepareBaseModelConfig, TrainingConfig)
+                                  PrepareBaseModelConfig, TrainingConfig, EvaluationConfig)
 from utils.base_utils import create_directories, read_yaml
 
 
@@ -79,3 +79,22 @@ class ConfigurationManager:
         )
 
         return training_config
+    
+    def get_evaluation_config(self) -> EvaluationConfig:
+        eval_config = self.config.model_evaluation
+        params = self.params
+
+        create_directories([eval_config.root_dir])
+        
+        evaluation_config = EvaluationConfig(
+            root_dir=Path(eval_config.root_dir),
+            trained_model_path=Path(eval_config.trained_model_path),
+            training_data=Path(eval_config.training_data),
+            all_params=params,
+            params_is_augmentation=params.AUGMENTATION,
+            params_image_size=params.IMAGE_SIZE,
+            params_batch_size=params.BATCH_SIZE,
+            data_split_seed=params.SEED,
+            reportfile=Path(eval_config.report_file),
+        )
+        return evaluation_config
