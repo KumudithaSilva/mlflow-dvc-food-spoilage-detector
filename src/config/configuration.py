@@ -75,6 +75,7 @@ class ConfigurationManager:
             params_is_augmentation=params.AUGMENTATION,
             params_image_size=params.IMAGE_SIZE,
             params_learning_rate=params.LEARNING_RATE,
+            data_split_seed=params.SEED,
         )
 
         return training_config
