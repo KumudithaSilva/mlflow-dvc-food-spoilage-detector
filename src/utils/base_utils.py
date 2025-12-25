@@ -96,6 +96,27 @@ def save_json(path_to_save: Path, data: dict):
         logger.error(f"Error saving JSON file at {path_to_save}: {e}")
         raise e
 
+@ensure_annotations
+def load_env_variables():
+    """
+    Loads environment variables from a .env file located in the current or parent directories.
+
+    Raises:
+        FileNotFoundError: If the .env file is not found.
+    """
+    from dotenv import load_dotenv, find_dotenv
+
+    try:
+        dotenv_path = find_dotenv()
+        if not dotenv_path:
+            raise FileNotFoundError(".env file not found in current or parent directories")
+    except Exception as e:
+        logger.error(f"Error finding .env file: {e}")
+        raise
+    
+    load_dotenv(dotenv_path)
+    logger.info(f".env file loaded from: {dotenv_path}")
+
 # @ensure_annotations
 # def load_json(path_json: Path) -> ConfigBox:
 #     pass
