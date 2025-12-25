@@ -2,14 +2,15 @@ import tensorflow as tf
 
 from entity.config_entity import TrainingConfig
 
-
 class Training:
     def __init__(self, config: TrainingConfig):
         self.config = config
 
+    # ===== Load Base Model =====
     def get_based_model(self):
         self.model = tf.keras.models.load_model(self.config.updated_base_model_path)
 
+    # ===== Create Train & Validation Generators =====
     def train_valid_generator(self):
         # Normalize images and keep 20% aside for validation
         datagen_kwargs = dict(rescale=1.0 / 255, validation_split=0.20)
@@ -39,14 +40,16 @@ class Training:
                 **datagen_kwargs
             )
 
+        # ===== Training generator =====
         self.train_generator = train_datagen.flow_from_directory(
             directory=self.config.training_data,
             subset="training",
             shuffle=True,
+            seed=self.config.data_split_seed,
             **dataflow_kwargs
         )
 
-        # Create Validation Generator
+         # ===== Validation generator =====
         valid_datagen = tf.keras.preprocessing.image.ImageDataGenerator(
             **datagen_kwargs
         )
@@ -55,9 +58,11 @@ class Training:
             directory=self.config.training_data,
             subset="validation",
             shuffle=False,
+            seed=self.config.data_split_seed,
             **dataflow_kwargs
         )
 
+    # ===== Compile & Train Model =====
     def train(self):
         # Compile the based model
         self.model.compile(
@@ -86,10 +91,11 @@ class Training:
             validation_data=self.valid_generator,
             callbacks=callbacks,
         )
-
+        
+      # ===== Save Trained Model =====
     def save_model(self):
         if self.model is None:
             raise ValueError("Model not trained or loaded yet")
 
-        path = self.config.trained_model_path.with_suffix(".keras")
+        path = self.config.trained_model_path.with_suffix(".h5")
         self.model.save(path)
