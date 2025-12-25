@@ -21,3 +21,9 @@ prepare_base_model:
 training:
   root_dir: artifacts/training
   trained_model_path: artifacts/training/model.h5
+
+model_evaluation:
+  root_dir: artifacts/model_evaluation
+  trained_model_path: artifacts/training/model.h5
+  training_data: artifacts/data_preprocessing/Food_Spoilage_Dataset
+  report_file: artifacts/model_evaluation/report.json
