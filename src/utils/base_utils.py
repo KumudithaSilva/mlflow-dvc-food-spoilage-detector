@@ -62,9 +62,39 @@ def create_directories(path_to_dirs: list, verbose=True):
             raise e
 
 
-# @ensure_annotations
-# def save_json(path_to_save: Path, data: dict):
-#     pass
+@ensure_annotations
+def save_json(path_to_save: Path, data: dict):
+    """
+    Saves a dictionary as a JSON file. Appends new entries to a list.
+
+    Args:
+        path_to_save (Path): Path where the JSON file will be saved.
+        data (dict): Data to be saved in JSON format.
+
+    Raises:
+        Exception: If saving the JSON file fails.
+    """
+    import json
+
+    try:
+        if path_to_save.exists():
+            with open(path_to_save, "r") as json_file:
+                existing_data = json.load(json_file)
+            
+            if not isinstance(existing_data, list):
+                existing_data = [existing_data]
+        else:
+            existing_data = []
+        
+        existing_data.append(data)
+        
+        with open(path_to_save, "w") as json_file:
+            json.dump(existing_data, json_file, indent=4)
+            logger.info(f"JSON file saved at {path_to_save}")
+
+    except Exception as e:
+        logger.error(f"Error saving JSON file at {path_to_save}: {e}")
+        raise e
 
 # @ensure_annotations
 # def load_json(path_json: Path) -> ConfigBox:
