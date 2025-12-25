@@ -43,3 +43,16 @@ class TrainingConfig:
     params_image_size: list
     params_learning_rate: float
     data_split_seed: int
+
+
+@dataclass(frozen=True)
+class EvaluationConfig:
+    root_dir: Path
+    trained_model_path: Path
+    training_data: Path
+    all_params: dict
+    params_is_augmentation: bool
+    params_image_size: list
+    params_batch_size: int
+    data_split_seed: int
+    reportfile: Path
