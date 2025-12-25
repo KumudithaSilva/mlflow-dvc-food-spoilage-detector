@@ -8,7 +8,7 @@ dependencies:
   - pandas
   - gdown
   - dvc
-  - mlflow=2.2.2
+  - mlflow=3.8
   - notebook
   - numpy
   - matplotlib
