@@ -42,3 +42,4 @@ class TrainingConfig:
     params_is_augmentation: bool
     params_image_size: list
     params_learning_rate: float
+    data_split_seed: int
