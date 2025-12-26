@@ -1,48 +1,40 @@
 stages:
-  data_ingestion:
-    cmd: python src/pipeline/stage_01_data_ingestion.py
-    deps:
-      - src/pipeline/stage_01_data_ingestion.py
-      - config/config.yaml
-    outs:
-      - data/Food_Spoilage_Dataset
-
   data_preprocessing:
     cmd: python src/pipeline/state_02_data_preprocess.py
     deps:
-      - src/pipeline/state_02_data_preprocess.py
-      - config/config.yaml
-      - data/Food_Spoilage_Dataset 
+    - src/pipeline/state_02_data_preprocess.py
+    - config/config.yaml
+    - data/Food_Spoilage_Dataset
     outs:
-      - artifacts/data_preprocessing/Food_Spoilage_Dataset
+    - artifacts/data_preprocessing/Food_Spoilage_Dataset
 
   prepare_base_model:
     cmd: python src/pipeline/state_03_prepare_base_model.py
     deps:
-      - src/pipeline/state_03_prepare_base_model.py
-      - config/config.yaml
+    - src/pipeline/state_03_prepare_base_model.py
+    - config/config.yaml
     outs:
-      - artifacts/prepare_base_model/updated_base_model.h5
+    - artifacts/prepare_base_model/updated_base_model.h5
 
   training:
     cmd: python src/pipeline/state_04_model_training.py
     deps:
-      - src/pipeline/state_04_model_training.py
-      - config/config.yaml
-      - params.yaml
-      - artifacts/data_preprocessing/Food_Spoilage_Dataset
-      - artifacts/prepare_base_model/updated_base_model.h5
+    - src/pipeline/state_04_model_training.py
+    - config/config.yaml
+    - params.yaml
+    - artifacts/data_preprocessing/Food_Spoilage_Dataset
+    - artifacts/prepare_base_model/updated_base_model.h5
     outs:
-      - artifacts/training/model.h5
+    - artifacts/training/model.h5
 
   evaluation:
     cmd: python src/pipeline/stage_05_model_evaluation.py
     deps:
-      - src/pipeline/stage_05_model_evaluation.py
-      - config/config.yaml
-      - params.yaml
-      - artifacts/data_preprocessing/Food_Spoilage_Dataset
-      - artifacts/training/model.h5
+    - src/pipeline/stage_05_model_evaluation.py
+    - config/config.yaml
+    - params.yaml
+    - artifacts/data_preprocessing/Food_Spoilage_Dataset
+    - artifacts/training/model.h5
     metrics:
-      - artifacts/model_evaluation/report.json:
-          cache: false
+    - artifacts/model_evaluation/report.json:
+        cache: false

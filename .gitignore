@@ -198,3 +198,4 @@ models/
 
 # Ignore all raw datasets
 data/*
+/data
