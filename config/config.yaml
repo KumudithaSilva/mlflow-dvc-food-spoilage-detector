@@ -5,11 +5,13 @@ data_ingestion:
   source_URL: https://drive.google.com/file/d/1wUOvq1aDOx8qyERt7L2d2taeaVAiV6Le/view?usp=sharing
   local_datafile: artifacts/data_ingestion/food_spoilage.rar
   unzip_dir: artifacts/data_ingestion
+  data_folder: artifacts/data_ingestion/Food_Spoilage_Dataset
+  moved_location: data/Food_Spoilage_Dataset
 
 data_preprocessing:
   root_dir: artifacts/data_preprocessing
-  unzip_dir: artifacts/data_ingestion
-  reshape_dir: artifacts/data_preprocessing
+  unzip_dir: data/Food_Spoilage_Dataset
+  reshape_dir: artifacts/data_preprocessing/Food_Spoilage_Dataset
   image_size: [224, 244]
 
 prepare_base_model:
@@ -21,6 +23,7 @@ prepare_base_model:
 training:
   root_dir: artifacts/training
   trained_model_path: artifacts/training/model.h5
+  training_data: artifacts/data_preprocessing/Food_Spoilage_Dataset
 
 model_evaluation:
   root_dir: artifacts/model_evaluation
