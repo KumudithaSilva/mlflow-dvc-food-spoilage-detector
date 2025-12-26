@@ -1,22 +1,5 @@
 schema: '2.0'
 stages:
-  data_ingestion:
-    cmd: python src/pipeline/stage_01_data_ingestion.py
-    deps:
-    - path: config/config.yaml
-      hash: md5
-      md5: a2102703be1e0b4b7d6bd195fb177b2d
-      size: 1253
-    - path: src/pipeline/stage_01_data_ingestion.py
-      hash: md5
-      md5: e73e8eeea5901950f3b08a7f9ee4d541
-      size: 1256
-    outs:
-    - path: data/Food_Spoilage_Dataset
-      hash: md5
-      md5: 98c350169093b288307569b5e637c76c.dir
-      size: 20169346
-      nfiles: 150
   data_preprocessing:
     cmd: python src/pipeline/state_02_data_preprocess.py
     deps:
