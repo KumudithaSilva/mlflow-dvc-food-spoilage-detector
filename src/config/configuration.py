@@ -23,6 +23,8 @@ class ConfigurationManager:
             source_URL=config.source_URL,
             local_datafile=config.local_datafile,
             unzip_dir=config.unzip_dir,
+            data_folder=config.data_folder,
+            moved_location=config.moved_location,
         )
         return data_ingestion_config
 
@@ -57,9 +59,6 @@ class ConfigurationManager:
         training_config = self.config.training
         prepare_base_model_config = self.config.prepare_base_model
         params = self.params
-        training_data = os.path.join(
-            self.config.data_preprocessing.root_dir, "Food_Spoilage_Dataset"
-        )
 
         create_directories([training_config.root_dir])
 
@@ -69,7 +68,7 @@ class ConfigurationManager:
             updated_base_model_path=Path(
                 prepare_base_model_config.updated_base_model_path
             ),
-            training_data=Path(training_data),
+            training_data=Path(training_config.training_data),
             params_epochs=params.EPOCHS,
             params_batch_size=params.BATCH_SIZE,
             params_is_augmentation=params.AUGMENTATION,
