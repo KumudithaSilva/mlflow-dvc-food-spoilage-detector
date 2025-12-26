@@ -22,6 +22,8 @@ class DataIngestionTraningPipeline:
             data_ingestion.download_file()
             # Call unzip file
             data_ingestion.extract_zip_file()
+            # Move and cleanup
+            data_ingestion.moved_and_cleanup()
         except Exception as e:
             raise e
 
