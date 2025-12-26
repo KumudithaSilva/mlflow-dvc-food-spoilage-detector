@@ -1,4 +1,13 @@
 stages:
+
+  data_ingestion:
+    cmd: python src/pipeline/stage_01_data_ingestion.py
+    deps:
+      - src/pipeline/stage_01_data_ingestion.py
+      - config/config.yaml
+    outs:
+      - data/Food_Spoilage_Dataset
+      
   data_preprocessing:
     cmd: python src/pipeline/state_02_data_preprocess.py
     deps:

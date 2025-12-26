@@ -1,5 +1,22 @@
 schema: '2.0'
 stages:
+  data_ingestion:
+    cmd: python src/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: a2102703be1e0b4b7d6bd195fb177b2d
+      size: 1253
+    - path: src/pipeline/stage_01_data_ingestion.py
+      hash: md5
+      md5: e73e8eeea5901950f3b08a7f9ee4d541
+      size: 1256
+    outs:
+    - path: data/Food_Spoilage_Dataset
+      hash: md5
+      md5: 98c350169093b288307569b5e637c76c.dir
+      size: 20169346
+      nfiles: 150
   data_preprocessing:
     cmd: python src/pipeline/state_02_data_preprocess.py
     deps:
@@ -36,7 +53,7 @@ stages:
     outs:
     - path: artifacts/prepare_base_model/updated_base_model.h5
       hash: md5
-      md5: d921ff87b7e4b993a4c59e3ff4d8e1b5
+      md5: 5121d5e4756abe47df07bfc27f4e6c35
       size: 59136192
   training:
     cmd: python src/pipeline/state_04_model_training.py
@@ -48,7 +65,7 @@ stages:
       nfiles: 150
     - path: artifacts/prepare_base_model/updated_base_model.h5
       hash: md5
-      md5: d921ff87b7e4b993a4c59e3ff4d8e1b5
+      md5: 5121d5e4756abe47df07bfc27f4e6c35
       size: 59136192
     - path: config/config.yaml
       hash: md5
@@ -65,34 +82,5 @@ stages:
     outs:
     - path: artifacts/training/model.h5
       hash: md5
-      md5: 74c4102329d3690b30441c7b37da2b61
+      md5: 7d71e19cdf6e6c8e1b7a49f6e451b06a
       size: 59544224
-  evaluation:
-    cmd: python src/pipeline/stage_05_model_evaluation.py
-    deps:
-    - path: artifacts/data_preprocessing/Food_Spoilage_Dataset
-      hash: md5
-      md5: f9228f10b9e2ad4af1169d03aeeaf7d3.dir
-      size: 8388546
-      nfiles: 150
-    - path: artifacts/training/model.h5
-      hash: md5
-      md5: 74c4102329d3690b30441c7b37da2b61
-      size: 59544224
-    - path: config/config.yaml
-      hash: md5
-      md5: a2102703be1e0b4b7d6bd195fb177b2d
-      size: 1253
-    - path: params.yaml
-      hash: md5
-      md5: 65aaf61f879a1b0e794cd66ef8ac1369
-      size: 148
-    - path: src/pipeline/stage_05_model_evaluation.py
-      hash: md5
-      md5: e9818c1e50fe77bbfd755ceb5563bb2d
-      size: 1420
-    outs:
-    - path: artifacts/model_evaluation/report.json
-      hash: md5
-      md5: 9701f280411ea17e964af8142d460940
-      size: 204
