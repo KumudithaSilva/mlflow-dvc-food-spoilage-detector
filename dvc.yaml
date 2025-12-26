@@ -5,14 +5,14 @@ stages:
       - src/pipeline/stage_01_data_ingestion.py
       - config/config.yaml
     outs:
-      - artifacts/data_ingestion/Food_Spoilage_Dataset
+      - data/Food_Spoilage_Dataset
 
   data_preprocessing:
     cmd: python src/pipeline/state_02_data_preprocess.py
     deps:
       - src/pipeline/state_02_data_preprocess.py
       - config/config.yaml
-      - artifacts/data_ingestion/Food_Spoilage_Dataset
+      - data/Food_Spoilage_Dataset 
     outs:
       - artifacts/data_preprocessing/Food_Spoilage_Dataset
 
