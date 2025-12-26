@@ -1,0 +1,6 @@
+outs:
+- md5: 98c350169093b288307569b5e637c76c.dir
+  size: 20169346
+  nfiles: 150
+  hash: md5
+  path: Food_Spoilage_Dataset
