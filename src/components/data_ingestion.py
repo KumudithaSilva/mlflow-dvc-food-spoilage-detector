@@ -1,5 +1,6 @@
 import os
 import zipfile
+import shutil
 
 import gdown
 import rarfile
@@ -43,3 +44,27 @@ class DataIngestion:
             raise Exception(
                 "File format not supported for extraction. Only .zip and .rar are supported."
             )
+    
+    def moved_and_cleanup(self):
+        root_dir = self.config.root_dir
+        source_dir = self.config.data_folder
+        target_dir = self.config.moved_location
+
+        try:
+            os.makedirs(os.path.dirname(target_dir), exist_ok=True)
+
+            if os.path.exists(target_dir):
+                shutil.rmtree(target_dir)
+                logger.info(f"Removed existing directory at target location: {target_dir}")
+            
+            shutil.move(source_dir, target_dir)
+            logger.info(f"Moved data from {source_dir} to {target_dir}")
+
+            if os.path.exists(root_dir):
+                shutil.rmtree(root_dir)
+                logger.info(f"Removed root ingestion directory: {root_dir}")
+
+        except Exception as e:
+            logger.error("Error during move and cleanup")
+            raise e
+    
