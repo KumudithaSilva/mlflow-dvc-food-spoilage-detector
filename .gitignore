@@ -194,5 +194,4 @@ mlflow.db
 
 # Ignore all DVC outputs/artifacts
 artifacts/
-data/
 models/
