@@ -8,6 +8,8 @@ class DataIngestionConfig:
     source_URL: str
     local_datafile: Path
     unzip_dir: Path
+    data_folder: Path
+    moved_location: Path
 
 
 @dataclass(frozen=True)
