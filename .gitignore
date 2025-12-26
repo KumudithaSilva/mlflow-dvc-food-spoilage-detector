@@ -184,3 +184,15 @@ mlruns/
 mlartifacts/
 mlflow.db
 *.db
+
+
+# DVC
+.dvc/cache/
+.dvc/tmp/
+.dVC/
+.dvcignore
+
+# Ignore all DVC outputs/artifacts
+artifacts/
+data/
+models/
