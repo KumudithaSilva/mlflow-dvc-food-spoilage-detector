@@ -1,0 +1,86 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: a2102703be1e0b4b7d6bd195fb177b2d
+      size: 1253
+    - path: src/pipeline/stage_01_data_ingestion.py
+      hash: md5
+      md5: e73e8eeea5901950f3b08a7f9ee4d541
+      size: 1256
+    outs:
+    - path: data/Food_Spoilage_Dataset
+      hash: md5
+      md5: 98c350169093b288307569b5e637c76c.dir
+      size: 20169346
+      nfiles: 150
+  data_preprocessing:
+    cmd: python src/pipeline/state_02_data_preprocess.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: a2102703be1e0b4b7d6bd195fb177b2d
+      size: 1253
+    - path: data/Food_Spoilage_Dataset
+      hash: md5
+      md5: 98c350169093b288307569b5e637c76c.dir
+      size: 20169346
+      nfiles: 150
+    - path: src/pipeline/state_02_data_preprocess.py
+      hash: md5
+      md5: b5254f688fd89e719508ddd6020cb645
+      size: 1146
+    outs:
+    - path: artifacts/data_preprocessing/Food_Spoilage_Dataset
+      hash: md5
+      md5: f9228f10b9e2ad4af1169d03aeeaf7d3.dir
+      size: 8388546
+      nfiles: 150
+  prepare_base_model:
+    cmd: python src/pipeline/state_03_prepare_base_model.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: a2102703be1e0b4b7d6bd195fb177b2d
+      size: 1253
+    - path: src/pipeline/state_03_prepare_base_model.py
+      hash: md5
+      md5: 66527b733b8d12e40831b70b723ff7e6
+      size: 1031
+    outs:
+    - path: artifacts/prepare_base_model/updated_base_model.h5
+      hash: md5
+      md5: f4cd8ebc74c70bbace99597c9ef40082
+      size: 59136192
+  training:
+    cmd: python src/pipeline/state_04_model_training.py
+    deps:
+    - path: artifacts/data_preprocessing/Food_Spoilage_Dataset
+      hash: md5
+      md5: f9228f10b9e2ad4af1169d03aeeaf7d3.dir
+      size: 8388546
+      nfiles: 150
+    - path: artifacts/prepare_base_model/updated_base_model.h5
+      hash: md5
+      md5: f4cd8ebc74c70bbace99597c9ef40082
+      size: 59136192
+    - path: config/config.yaml
+      hash: md5
+      md5: a2102703be1e0b4b7d6bd195fb177b2d
+      size: 1253
+    - path: params.yaml
+      hash: md5
+      md5: 65aaf61f879a1b0e794cd66ef8ac1369
+      size: 148
+    - path: src/pipeline/state_04_model_training.py
+      hash: md5
+      md5: cf333dd5da8cee9b3d506299b6259537
+      size: 1056
+    outs:
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: fc323aaf6d10145fa3de6f20dcdf7d19
+      size: 59544224
