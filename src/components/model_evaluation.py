@@ -125,13 +125,13 @@ class ModelEvaluation:
             if tracking_url_type_store != "file":
                 mlflow.tensorflow.log_model(
                     model=self.model,
-                    name="model",
+                    artifact_path="model",
                     registered_model_name="VGG16Model"
                 )
             else:
                 mlflow.tensorflow.log_model(
                     model=self.model,
-                    name="model"
+                    artifact_path="model"
                 )
 
             print("Evaluation metrics and model logged to MLflow successfully.")
