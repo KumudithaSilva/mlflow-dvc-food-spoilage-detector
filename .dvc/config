@@ -1,1 +1,4 @@
-
+[core]
+    remote = origin
+['remote "origin"']
+    url = https://dagshub.com/KumudithaSilva/mlflow-dvc-food-spoilage-detector.dvc
