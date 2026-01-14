@@ -47,3 +47,13 @@ stages:
     metrics:
     - artifacts/model_evaluation/report.json:
         cache: false
+  
+  prediction:
+    cmd: python src/pipeline/stage_06_prediction.py
+    deps:
+    - src/pipeline/stage_06_prediction.py
+    - config/config.yaml
+    - artifacts/training/model.h5
+    outs:
+    - artifacts/prediction/predictions.json:
+        cache: false
