@@ -3,7 +3,7 @@ from pathlib import Path
 
 from constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from entity.config_entity import (DataIngestionConfig, DataPreprocessingConfig,
-                                  PrepareBaseModelConfig, TrainingConfig, EvaluationConfig)
+                                  PrepareBaseModelConfig, TrainingConfig, EvaluationConfig, PredictionConfig)
 from utils.base_utils import create_directories, read_yaml
 
 
@@ -97,3 +97,15 @@ class ConfigurationManager:
             reportfile=Path(eval_config.report_file),
         )
         return evaluation_config
+
+    def get_prediction_config(self) -> PredictionConfig:
+            pred_config = self.config.prediction
+
+            create_directories([pred_config.root_dir])
+
+            prediction_config = PredictionConfig(
+                root_dir=Path(pred_config.root_dir),
+                trained_model_path=Path(pred_config.trained_model_path),
+                prediction_output_file=Path(pred_config.prediction_output_file),
+            )
+            return prediction_config
