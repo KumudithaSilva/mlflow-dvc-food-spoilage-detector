@@ -200,3 +200,6 @@ models/
 data/*
 
 data
+
+# Prediction data
+prediction_data/
