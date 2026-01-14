@@ -69,6 +69,8 @@ class ConfigurationManager:
                 prepare_base_model_config.updated_base_model_path
             ),
             training_data=Path(training_config.training_data),
+            move_trained_model_path=Path(training_config.move_trained_model_path),
+            class_indices=Path(training_config.class_indices),
             params_epochs=params.EPOCHS,
             params_batch_size=params.BATCH_SIZE,
             params_is_augmentation=params.AUGMENTATION,

@@ -39,6 +39,8 @@ class TrainingConfig:
     trained_model_path: Path
     updated_base_model_path: Path
     training_data: Path
+    move_trained_model_path: Path
+    class_indices: Path
     params_epochs: int
     params_batch_size: int
     params_is_augmentation: bool
