@@ -24,6 +24,8 @@ training:
   root_dir: artifacts/training
   trained_model_path: artifacts/training/model.h5
   training_data: artifacts/data_preprocessing/Food_Spoilage_Dataset
+  move_trained_model_path: model/model.h5
+  class_indices: artifacts/training/class_indices.json
 
 model_evaluation:
   root_dir: artifacts/model_evaluation
@@ -33,5 +35,5 @@ model_evaluation:
 
 prediction:
   root_dir: artifacts/prediction
-  trained_model_path: artifacts/training/model.h5
+  trained_model_path: model/model.h5
   prediction_output_file: artifacts/prediction/predictions.json
