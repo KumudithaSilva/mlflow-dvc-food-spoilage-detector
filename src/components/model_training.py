@@ -1,6 +1,7 @@
 import tensorflow as tf
-
+from datetime import datetime
 from entity.config_entity import TrainingConfig
+from utils.base_utils import save_json
 
 class Training:
     def __init__(self, config: TrainingConfig):
@@ -49,6 +50,12 @@ class Training:
             **dataflow_kwargs
         )
 
+        # ===== Save class indices =====
+        class_indices = self.train_generator.class_indices
+        save_json(self.config.class_indices, class_indices)
+        
+        print(f"Class Indices saved to {self.config.class_indices}")
+
          # ===== Validation generator =====
         valid_datagen = tf.keras.preprocessing.image.ImageDataGenerator(
             **datagen_kwargs
@@ -96,6 +103,18 @@ class Training:
     def save_model(self):
         if self.model is None:
             raise ValueError("Model not trained or loaded yet")
-
+        
+        # ----- Save to artifacts -----
         path = self.config.trained_model_path.with_suffix(".h5")
         self.model.save(path)
+
+        # ----- Save to production  -----
+        # timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        # prod_path = self.config.move_trained_model_path.with_name(f"model_{timestamp}.h5")
+        
+        # overwrite
+        prod_path = self.config.move_trained_model_path.with_suffix(".h5")
+
+        prod_path.parent.mkdir(parents=True, exist_ok=True)
+        self.model.save(prod_path)
+        print(f"Model saved to production: {prod_path}")
