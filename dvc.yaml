@@ -35,6 +35,8 @@ stages:
     - artifacts/prepare_base_model/updated_base_model.h5
     outs:
     - artifacts/training/model.h5
+    - artifacts/training/class_indices.json
+    - model/model.h5
 
   evaluation:
     cmd: python src/pipeline/stage_05_model_evaluation.py
@@ -53,7 +55,7 @@ stages:
     deps:
     - src/pipeline/stage_06_prediction.py
     - config/config.yaml
-    - artifacts/training/model.h5
+    - model/model.h5
     outs:
     - artifacts/prediction/predictions.json:
         cache: false
