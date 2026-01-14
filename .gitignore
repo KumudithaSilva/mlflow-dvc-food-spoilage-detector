@@ -203,3 +203,6 @@ data
 
 # Prediction data
 prediction_data/
+
+# Model files
+model/
