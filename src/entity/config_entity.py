@@ -58,3 +58,9 @@ class EvaluationConfig:
     params_batch_size: int
     data_split_seed: int
     reportfile: Path
+
+@dataclass(frozen=True)
+class PredictionConfig:
+    root_dir: Path
+    trained_model_path: Path
+    prediction_output_file: Path
