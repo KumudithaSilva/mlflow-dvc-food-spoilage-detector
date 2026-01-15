@@ -6,16 +6,33 @@ from entity.config_entity import PredictionConfig
 from utils.base_utils import save_json
 
 class Prediction:
+    _instance = None
+
+    # Make sure Model load once
+    def __new__(cls, config: PredictionConfig):
+        if cls._instance is None:
+            cls._instance = super(Prediction, cls).__new__(cls)
+            cls._instance.__init__(config)
+        return cls._instance
 
     def __init__(self, config: PredictionConfig):
+        """
+        Constructor:
+        - Store config
+        - Load model ONCE 
+        """
         self.config = config
-        self.model = None
+        # Load model once during initialization
+        self.model = tf.keras.models.load_model(self.config.trained_model_path, compile=False)
     
-    @staticmethod
-    def load_model(path: Path) -> tf.keras.Model:
-        return tf.keras.models.load_model(path, compile=False)
-    
+
     def _preprocess_image(self, image_path: Path):
+        """
+        Image preprocessing:
+        - Resize using config
+        - Normalize
+        - Add batch dimension
+        """
         img = tf.keras.preprocessing.image.load_img(
             image_path, target_size=(224, 244))
         img_array = tf.keras.preprocessing.image.img_to_array(img)
@@ -24,9 +41,9 @@ class Prediction:
         return img_array
     
     def predict(self, image_path: list[Path]):
-        if self.model is None:
-            self.model = self.load_model(self.config.trained_model_path)
-        
+        """
+        Predict for a batch of images
+        """
         results = []
 
         for img_path in image_path:
@@ -42,7 +59,9 @@ class Prediction:
                 "confidence": float(confidence)
             })
 
-        save_json(self.config.prediction_output_file, {"predictions": results})
-        print(f"Prediction report saved to {self.config.prediction_output_file}")
-
+        if self.config.prediction_output_file:
+            save_json(
+                self.config.prediction_output_file,
+                {"predictions": results}
+                )    
         return results
