@@ -24,3 +24,6 @@ rarfile==4.2
 # sudo apt install unrar         Ubuntu/Debian
 # sudo dnf install unrar         Fedora
 # brew install unrar             macOS (Homebrew)
+
+# uvicorn app:app --reload
+# streamlit run streamlit_app.py
