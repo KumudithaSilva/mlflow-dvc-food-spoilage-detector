@@ -1,15 +1,28 @@
 from pathlib import Path
 
 from fastapi import FastAPI
-from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from pydantic import BaseModel
 from pipeline.stage_06_prediction import PredictionPipeline
 from utils.image_utils import decodeImage
 import traceback
+import os 
+import uuid
 
-# FastAPI app
+
+# ------------------------------------------------------------
+# Configuration
+# ------------------------------------------------------------
+
+OBJECT_STORE_ROOT = Path(os.getenv("OBJECT_STORE_ROOT", "object_store"))
+UPLOAD_DIR = OBJECT_STORE_ROOT / "prediction_data"
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
+# ------------------------------------------------------------
+# FastAPI App
+# ------------------------------------------------------------
+
 app = FastAPI(title="Food Spoilage Detector")
 
 # Allow CORS for Streamlit requests
@@ -20,32 +33,42 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Image storage path
-TEMP_IMAGE_PATH = Path("prediction_data/inputImage.png")
-# Load Model
-pipeline = PredictionPipeline([TEMP_IMAGE_PATH])
+# ------------------------------------------------------------
+# Load Prediction Pipeline ONCE
+# ------------------------------------------------------------
+
+prediction_pipeline = PredictionPipeline()
 
 
-# Request schema
+# ------------------------------------------------------------
+# Request Schema
+# ------------------------------------------------------------
+
 class ImageRequest(BaseModel):
     image: str
 
 
-@app.get("/")
-def root():
-    # Redirect user to Streamlit
-    return RedirectResponse("http://localhost:8501")
-
+# ------------------------------------------------------------
+# Prediction Endpoint
+# ------------------------------------------------------------
 
 @app.post("/predict")
 def predict(data: ImageRequest):
+    """
+    1. Generate unique object key
+    2. Save image to object storage
+    3. Pass path to prediction pipeline
+    """
     try:
+        # Generate unique object name
+        image_name = f"{uuid.uuid4()}.png"
+        image_path = UPLOAD_DIR / image_name
+        
         # decode base64
-        decodeImage(data.image, TEMP_IMAGE_PATH)
-        # update pipeline
-        pipeline.image_paths = [TEMP_IMAGE_PATH]
+        decodeImage(data.image, image_path)
+
         # run prediction
-        result = pipeline.main()
+        result = prediction_pipeline.run([image_path])
 
         return result
     
