@@ -4,19 +4,27 @@ import requests
 from PIL import Image
 import io
 import base64
+import os
+from utils.base_utils import load_env_variables
 
+# ------------------------------
+# Configuration
+# ------------------------------
 # FastAPI endpoint
-API_URL = "http://127.0.0.1:8000/predict"  # change if deployed elsewhere
+load_env_variables()
+API_URL = os.getenv("API_URL")
 
 st.title("🍎 Food Spoilage Detector")
-st.write("")
+st.write("Upload an image of food and get instant spoilage prediction!")
 
 CLASS_EMOJIS = {
     0: "🍎 Fresh Apple",      
     1: "🤢 Rotten Apple",    
 }
 
-# Upload image
+# ------------------------------
+# Upload Section
+# ------------------------------
 uploaded_file = st.file_uploader("Upload an image of food", type=["png", "jpg", "jpeg"])
 
 if uploaded_file:
@@ -25,30 +33,30 @@ if uploaded_file:
     st.image(image, caption="Uploaded Image", width="content")
     st.write("")
 
-    # Convert image to base64
-    buffered = io.BytesIO()
-    image.save(buffered, format="PNG")
-    img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
 
     if st.button("Predict Spoilage"):
         with st.spinner("Analyzing..."):
             try:
+
+                # Convert image to base64
+                buffered = io.BytesIO()
+                image.save(buffered, format="PNG")
+                img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")   
+
                 # Send POST request to FastAPI
-                response = requests.post(API_URL, json={"image": img_str})
+                response = requests.post(API_URL, json={"image": img_str}, timeout=30)
                 result = response.json()
 
                 prediction = result[0]
-                class_idx = prediction["class_index"]
-                confidence = prediction.get("confidence", 0)
-
-                label_emoji = CLASS_EMOJIS.get(class_idx)
+                class_idx = CLASS_EMOJIS.get(prediction["class_index"], "Unknown")
+                confidence = prediction["confidence"] * 100
                 st.write("")
 
                 # Display result
                 if "error" in result:
                     st.error(f"Error: {result['error']}")
                 else:
-                    st.success(f"Prediction Result: {label_emoji} with {confidence*100}% Confidence")
+                    st.success(f"Prediction Result: {class_idx} with {confidence:.2f}% confidence")
                     st.write(result)
 
             except Exception as e:
