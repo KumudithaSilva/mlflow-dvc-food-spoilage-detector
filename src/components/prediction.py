@@ -44,3 +44,5 @@ class Prediction:
 
         save_json(self.config.prediction_output_file, {"predictions": results})
         print(f"Prediction report saved to {self.config.prediction_output_file}")
+
+        return results
