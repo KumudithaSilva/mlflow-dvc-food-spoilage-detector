@@ -23,10 +23,11 @@ class EvaluationPipeline:
             model_eval.evaluate_model()
             # Save the evaluation report
             model_eval.save_evaluation_report()
+
             # Configure mlflow
-            model_eval.configure_mlflow()
+            # model_eval.configure_mlflow()
             # Log evaluation metrics to mlflow
-            model_eval.log_evaluation_metrics()
+            # model_eval.log_evaluation_metrics()
         except Exception as e:
             raise e
     
