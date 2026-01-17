@@ -3,7 +3,7 @@ from pathlib import Path
 
 from constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from entity.config_entity import (DataIngestionConfig, DataPreprocessingConfig,
-                                  PrepareBaseModelConfig, TrainingConfig, EvaluationConfig, PredictionConfig)
+                                  PrepareBaseModelConfig, TrainingConfig, EvaluationConfig, PredictionConfig, AWSConfig, S3Config)
 from utils.base_utils import create_directories, read_yaml
 
 
@@ -77,6 +77,13 @@ class ConfigurationManager:
             params_image_size=params.IMAGE_SIZE,
             params_learning_rate=params.LEARNING_RATE,
             data_split_seed=params.SEED,
+            aws=AWSConfig(
+                 region=training_config.aws.region,
+                 s3=S3Config(
+                      bucket=training_config.aws.s3.bucket,
+                      model_prefix=training_config.aws.s3.model_prefix
+                 )
+            )
         )
 
         return training_config
