@@ -7,6 +7,9 @@ from ensure import ensure_annotations
 
 from utils import logger
 
+from dotenv import load_dotenv, find_dotenv
+import json
+
 
 @ensure_annotations
 def read_yaml(path_to_yaml: Path) -> ConfigBox:
@@ -74,7 +77,6 @@ def save_json(path_to_save: Path, data: dict):
     Raises:
         Exception: If saving the JSON file fails.
     """
-    import json
 
     try:
         if path_to_save.exists():
@@ -104,7 +106,6 @@ def load_env_variables():
     Raises:
         FileNotFoundError: If the .env file is not found.
     """
-    from dotenv import load_dotenv, find_dotenv
 
     try:
         dotenv_path = find_dotenv()
