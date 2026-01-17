@@ -3,6 +3,18 @@ from pathlib import Path
 
 
 @dataclass(frozen=True)
+class S3Config:
+    bucket: str
+    model_prefix: str
+
+
+@dataclass
+class AWSConfig:
+    region: str
+    s3: S3Config
+
+
+@dataclass(frozen=True)
 class DataIngestionConfig:
     root_dir: Path
     source_URL: str
@@ -47,6 +59,7 @@ class TrainingConfig:
     params_image_size: list
     params_learning_rate: float
     data_split_seed: int
+    aws: AWSConfig
 
 
 @dataclass(frozen=True)
