@@ -1,11 +1,15 @@
 import tensorflow as tf
 from datetime import datetime
 from entity.config_entity import TrainingConfig
-from utils.base_utils import save_json
+from utils.base_utils import save_json, load_env_variables
+from utils.s3_utils import S3Client
+
 
 class Training:
     def __init__(self, config: TrainingConfig):
-        self.config = config
+        self.config = config        
+        load_env_variables() 
+        
 
     # ===== Load Base Model =====
     def get_based_model(self):
@@ -105,16 +109,53 @@ class Training:
             raise ValueError("Model not trained or loaded yet")
         
         # ----- Save to artifacts -----
-        path = self.config.trained_model_path.with_suffix(".h5")
-        self.model.save(path)
+        artifacts_model_path = self.config.trained_model_path.with_suffix(".h5")
+        self.model.save(artifacts_model_path)
+        print(f"Model saved artifacts at {artifacts_model_path}")
 
-        # ----- Save to production  -----
-        # timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-        # prod_path = self.config.move_trained_model_path.with_name(f"model_{timestamp}.h5")
-        
+
+        # ----- Save to local -----
         # overwrite
-        prod_path = self.config.move_trained_model_path.with_suffix(".h5")
+        local_model_path = self.config.move_trained_model_path.with_suffix(".h5")
 
-        prod_path.parent.mkdir(parents=True, exist_ok=True)
-        self.model.save(prod_path)
-        print(f"Model saved to production: {prod_path}")
+        local_model_path.parent.mkdir(parents=True, exist_ok=True)
+        self.model.save(local_model_path)
+        print(f"Model saved locally at {local_model_path}")
+
+
+        # ----- Save to AWS S3 production  -----
+        timestamp = datetime.now().strftime("%Y-%m-%d-%H%M%S")
+
+        s3_client = S3Client(region_name=self.config.aws.region)
+
+        versioned_key = (f"{self.config.aws.s3.model_prefix}/versions/{timestamp}/model.h5")
+        latest_key = (f"{self.config.aws.s3.model_prefix}/latest/model.h5")
+        class_indices_key = (f"{self.config.aws.s3.model_prefix}/latest/class_indices.json")
+
+        # Upload versioned model
+        s3_client.upload_model(
+            local_path=local_model_path,
+            bucket=self.config.aws.s3.bucket,
+            key=versioned_key
+        )
+
+        # Upload and overwrite latest model
+        s3_client.upload_model(
+            local_path=local_model_path,
+            bucket=self.config.aws.s3.bucket,
+            key=latest_key
+        )
+
+        # Upload and overwrite latest model indices
+        s3_client.upload_model(
+            local_path=self.config.class_indices,
+            bucket=self.config.aws.s3.bucket,
+            key=class_indices_key
+        )
+
+        print(
+        f"Model and Indices uploaded to:\n"
+        f" - s3://{self.config.aws.s3.bucket}/{versioned_key}\n"
+        f" - s3://{self.config.aws.s3.bucket}/{latest_key}\n"
+        f" - s3://{self.config.aws.s3.bucket}/{class_indices_key}"
+        )
