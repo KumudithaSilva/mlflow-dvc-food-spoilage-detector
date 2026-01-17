@@ -1,0 +1,36 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Git and version control
+.git/
+.gitignore
+
+# Data and logs
+data/
+logs/
+
+# DVC cache (optional, if you don’t need it in the image)
+.dvc/cache/
+
+# Temporary files
+*.swp
+*.tmp
+*.bak
+
+# IDE / editor files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+
+# Optional: exclude large models if you pull them via DVC later
+# models/
