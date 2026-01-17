@@ -26,6 +26,11 @@ training:
   training_data: artifacts/data_preprocessing/Food_Spoilage_Dataset
   move_trained_model_path: model/model.h5
   class_indices: artifacts/training/class_indices.json
+  aws:
+    region: us-east-1
+    s3:
+      bucket: food-spoilage-ml
+      model_prefix: models/food_spoilage_detector
 
 model_evaluation:
   root_dir: artifacts/model_evaluation
