@@ -4,16 +4,23 @@ import tensorflow as tf
 import dagshub
 import mlflow
 from urllib.parse import urlparse
+from components.model_handler import ModelHandler
 from entity.config_entity import EvaluationConfig
 from utils.base_utils import load_env_variables, save_json
 
 class ModelEvaluation:
     
-    def __init__(self, config: EvaluationConfig):
+    def __init__(self, config: EvaluationConfig, model_handler: ModelHandler):
         self.config = config
-        self.model = None
+        self.model_handler = model_handler
         self.valid_generator = None
         self.scores = None
+        self.model = None
+    
+    def _get_model(self):
+        if self.model is None:
+            self.model = self.model_handler.load_model()
+        return self.model
     
     # ===== Create Train & Validation Generators =====
     def validation_generator(self):
@@ -42,13 +49,10 @@ class ModelEvaluation:
             **dataflow_kwargs
         )
     
-    @staticmethod
-    def load_model(path: Path) -> tf.keras.Model:
-        return tf.keras.models.load_model(path, compile=False)
-    
+
     # ===== Evaluate Model =====
     def evaluate_model(self):
-        self.model = self.load_model(self.config.trained_model_path)
+        self.model = self._get_model()
         self.model.compile(
             optimizer=tf.keras.optimizers.legacy.Adam(),
             loss="categorical_crossentropy",

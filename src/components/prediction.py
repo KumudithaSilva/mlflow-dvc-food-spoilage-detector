@@ -2,30 +2,21 @@ import os
 import numpy as np
 from pathlib import Path
 import tensorflow as tf
+from components.model_handler import ModelHandler
 from entity.config_entity import PredictionConfig
 from utils.base_utils import save_json
 
 class Prediction:
-    _instance = None
-
-    # Make sure Model load once
-    def __new__(cls, config: PredictionConfig):
-        if cls._instance is None:
-            cls._instance = super(Prediction, cls).__new__(cls)
-            cls._instance.__init__(config)
-        return cls._instance
-
-    def __init__(self, config: PredictionConfig):
-        """
-        Constructor:
-        - Store config
-        - Load model ONCE 
-        """
+    def __init__(self, config: PredictionConfig, model_handler: ModelHandler):
         self.config = config
-        # Load model once during initialization
-        self.model = tf.keras.models.load_model(self.config.trained_model_path, compile=False)
+        self.model_handler = model_handler
+        self.model = None
     
-
+    def _get_model(self):
+        if self.model is None:
+            self.model = self.model_handler.load_model()
+        return self.model
+    
     def _preprocess_image(self, image_path: Path):
         """
         Image preprocessing:
@@ -45,6 +36,7 @@ class Prediction:
         Predict for a batch of images
         """
         results = []
+        self.model = self._get_model()
 
         for img_path in image_path:
             preprocessed_image = self._preprocess_image(img_path)
