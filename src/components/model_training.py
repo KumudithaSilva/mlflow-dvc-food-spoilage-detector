@@ -1,15 +1,13 @@
 import tensorflow as tf
 from datetime import datetime
 from entity.config_entity import TrainingConfig
-from utils.base_utils import save_json, load_env_variables
+from utils.base_utils import save_json
 from utils.s3_utils import S3Client
 
 
 class Training:
     def __init__(self, config: TrainingConfig):
         self.config = config        
-        load_env_variables() 
-        
 
     # ===== Load Base Model =====
     def get_based_model(self):
@@ -113,17 +111,18 @@ class Training:
         self.model.save(artifacts_model_path)
         print(f"Model saved artifacts at {artifacts_model_path}")
 
-
+        # Optional: in AWS, replace this with S3
         # ----- Save to local -----
         # overwrite
-        local_model_path = self.config.move_trained_model_path.with_suffix(".h5")
+        # local_model_path = self.config.move_trained_model_path.with_suffix(".h5")
 
-        local_model_path.parent.mkdir(parents=True, exist_ok=True)
-        self.model.save(local_model_path)
-        print(f"Model saved locally at {local_model_path}")
+        # local_model_path.parent.mkdir(parents=True, exist_ok=True)
+        # self.model.save(local_model_path)
+        # print(f"Model saved locally at {local_model_path}")
 
 
         # ----- Save to AWS S3 production  -----
+        local_model_path = self.config.trained_model_path.with_suffix(".h5")
         timestamp = datetime.now().strftime("%Y-%m-%d-%H%M%S")
 
         s3_client = S3Client(region_name=self.config.aws.region)
