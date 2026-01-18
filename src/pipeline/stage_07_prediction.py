@@ -1,4 +1,5 @@
 from pathlib import Path
+from components.model_handler import ModelHandler
 from components.prediction import Prediction
 from config.configuration import ConfigurationManager
 from utils import logger
@@ -10,9 +11,14 @@ class PredictionPipeline:
             # Initialize the ConfigurationManager
             config_manager = ConfigurationManager()
             # Get the prediction config
-            self.pred_config = config_manager.get_prediction_config()
+            pred_config = config_manager.get_prediction_config()
+            # Get the Model Handler config
+            model_handler_config = config_manager.get_model_handler_config()
+            # Initialize the ModelHandler class
+            model_handler = ModelHandler(config=model_handler_config)
             # Initialize the Prediction class
-            self.predictor = Prediction(config=self.pred_config)
+            self.predictor = Prediction(config=pred_config, model_handler=model_handler)
+
     
 
     def main(self, image_paths: list[Path]):

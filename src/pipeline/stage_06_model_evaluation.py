@@ -1,4 +1,5 @@
 # Pipeleline
+from components.model_handler import ModelHandler
 from components.model_evaluation import ModelEvaluation
 from config.configuration import ConfigurationManager
 from utils import logger
@@ -11,12 +12,16 @@ class EvaluationPipeline:
 
     def main(self):
         try:
-            # Initilize the ConfigurationManager
+            # Initialize the ConfigurationManager
             config = ConfigurationManager()
             # Get the config yaml file details
             eval_config = config.get_evaluation_config()
+            # Get the Model Handler config
+            model_handler_config = config.get_model_handler_config()
+            # Initialize the ModelHandler class
+            model_handler = ModelHandler(config=model_handler_config)
             # Initialize the ModelEvaluation class
-            model_eval = ModelEvaluation(config=eval_config)
+            model_eval = ModelEvaluation(config=eval_config, model_handler=model_handler)
             # Create the validation generator
             model_eval.validation_generator()
             # Evaluate the model
