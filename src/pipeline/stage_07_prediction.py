@@ -15,7 +15,7 @@ class PredictionPipeline:
             self.predictor = Prediction(config=self.pred_config)
     
 
-    def run(self, image_paths: list[Path]):
+    def main(self, image_paths: list[Path]):
         """
         Run prediction on provided images
         """
@@ -27,12 +27,12 @@ if __name__ == "__main__":
         logger.info(f">>>>> STAGE {STAGE_NAME} STARTED <<<<<")
 
         images = [
-            Path("object_store/prediction_data/p1.png"),
-            Path("object_store/prediction_data/p2.png")
+            Path("temp/p1.png"),
+            Path("temp/p2.png")
         ]
 
         pipeline = PredictionPipeline()
-        output = pipeline.run(images)
+        output = pipeline.main(images)
 
         logger.info(f"Prediction Output: {output}")
         logger.info(f">>>>> STAGE {STAGE_NAME} COMPLETED <<<<< \n\n")
