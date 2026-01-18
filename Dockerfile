@@ -28,8 +28,6 @@ RUN pip install --no-cache-dir -r requirement.txt
 COPY src/ ./src/
 COPY config/ ./config/
 COPY params.yaml ./params.yaml
-COPY model/ ./model/
-COPY object_store/ ./object_store/
 COPY template/ ./template/
 COPY app.py ./app.py
 COPY .env ./  
