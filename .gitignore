@@ -206,3 +206,6 @@ prediction_data/
 
 # Model files
 model/
+
+# Temporally files
+temp/
