@@ -3,7 +3,7 @@ from pathlib import Path
 
 from constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from entity.config_entity import (DataIngestionConfig, DataPreprocessingConfig,
-                                  PrepareBaseModelConfig, TrainingConfig, EvaluationConfig, PredictionConfig, AWSConfig, S3Config)
+                                  PrepareBaseModelConfig, TrainingConfig, EvaluationConfig, PredictionConfig, AWSConfig, S3Config, ModelHandlerConfig)
 from utils.base_utils import create_directories, read_yaml
 
 
@@ -88,6 +88,23 @@ class ConfigurationManager:
 
         return training_config
     
+    def get_model_handler_config(self) -> ModelHandlerConfig:
+         model_handler_config = self.config.model_handler
+
+         create_directories([model_handler_config.cache_dir])
+
+         model_config = ModelHandlerConfig(
+              aws=AWSConfig(
+                 region=model_handler_config.aws.region,
+                 s3=S3Config(
+                      bucket=model_handler_config.aws.s3.bucket,
+                      model_prefix=model_handler_config.aws.s3.model_prefix
+                 )
+            ),
+            cache_dir=Path(model_handler_config.cache_dir)
+         )
+         return model_config
+
     def get_evaluation_config(self) -> EvaluationConfig:
         eval_config = self.config.model_evaluation
         params = self.params
