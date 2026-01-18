@@ -63,6 +63,12 @@ class TrainingConfig:
 
 
 @dataclass(frozen=True)
+class ModelHandlerConfig:
+    aws: AWSConfig
+    cache_dir: Path
+
+
+@dataclass(frozen=True)
 class EvaluationConfig:
     root_dir: Path
     trained_model_path: Path
