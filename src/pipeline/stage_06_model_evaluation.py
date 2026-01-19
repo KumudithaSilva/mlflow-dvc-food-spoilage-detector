@@ -5,7 +5,7 @@ from config.configuration import ConfigurationManager
 from logger.logging_config import logger
 
 STAGE_NAME = "Model Evaluation Stage"
-logger.info(f">>>>> STAGE {STAGE_NAME} STARTED <<<<<")
+
 class EvaluationPipeline:
     def __init__(self):
         pass
