@@ -1,25 +1,16 @@
 import boto3
 from pathlib import Path
 from ensure import ensure_annotations
-from utils import logger
-from utils.base_utils import load_env_variables
+from logger.logging_config import logger
+from utils.aws_client import AWSClient
 
 class S3Client:
-    _instance = None
-
-    def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-            cls._instance._initialized = False
-        return cls._instance
-
+    """
+    Stateless S3 client wrapper.
+    """
     def __init__(self, region_name: str = "us-east-1"):
-        if getattr(self, "_initialized", False):
-            return
-        
-        load_env_variables() 
-        self.client = boto3.client("s3", region_name=region_name)
-        self._initialized = True
+        aws = AWSClient(region_name)
+        self.client = aws.session.client("s3")
     
 
     def upload_fileobj(self, file_obj, bucket: str, key: str) -> None:
