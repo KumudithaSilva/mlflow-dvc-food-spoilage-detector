@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 from entity.config_entity import DataPreprocessingConfig
-from utils import logger
+from logger.logging_config import logger
 from utils.image_utils import reshape_image, save_image
 
 

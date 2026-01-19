@@ -1,7 +1,7 @@
 # Pipeleline
 from components.data_ingestion import DataIngestion
 from config.configuration import ConfigurationManager
-from utils import logger
+from logger.logging_config import logger
 
 STAGE_NAME = "Data Ingestion Stage"
 

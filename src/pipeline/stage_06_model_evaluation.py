@@ -2,10 +2,10 @@
 from components.model_handler import ModelHandler
 from components.model_evaluation import ModelEvaluation
 from config.configuration import ConfigurationManager
-from utils import logger
+from logger.logging_config import logger
 
 STAGE_NAME = "Model Evaluation Stage"
-
+logger.info(f">>>>> STAGE {STAGE_NAME} STARTED <<<<<")
 class EvaluationPipeline:
     def __init__(self):
         pass

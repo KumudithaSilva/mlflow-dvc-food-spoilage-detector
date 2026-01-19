@@ -1,5 +1,5 @@
 from pathlib import Path
-from utils import logger
+from logger.logging_config import logger
 
 from pipeline.stage_01_data_ingestion import DataIngestionTraningPipeline
 from pipeline.state_02_data_preprocess import DataPreprocessTraningPipeline

@@ -6,7 +6,7 @@ import gdown
 import rarfile
 
 from entity.config_entity import DataIngestionConfig
-from utils import logger
+from logger.logging_config import logger
 
 
 class DataIngestion:

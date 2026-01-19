@@ -1,7 +1,7 @@
 # Pipeleline
 from components.prepare_base_model import PrepareBaseModel
 from config.configuration import ConfigurationManager
-from utils import logger
+from logger.logging_config import logger
 
 STAGE_NAME = "Prepare Base Model Stage"
 

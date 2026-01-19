@@ -2,7 +2,7 @@ from pathlib import Path
 from components.model_handler import ModelHandler
 from components.prediction import Prediction
 from config.configuration import ConfigurationManager
-from utils import logger
+from logger.logging_config import logger
 
 STAGE_NAME = "Prediction Stage"
 
