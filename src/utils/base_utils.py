@@ -5,7 +5,7 @@ import yaml
 from box import ConfigBox
 from ensure import ensure_annotations
 
-from utils import logger
+from logger.logging_config import logger
 
 from dotenv import load_dotenv, find_dotenv
 import json
