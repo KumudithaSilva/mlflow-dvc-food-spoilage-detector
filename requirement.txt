@@ -20,6 +20,7 @@ uvicorn==0.23.2
 streamlit==1.53.0
 rarfile==4.2
 dagshub==0.6.4
+watchtower==3.4.0
 
 # Python 3.10.19
 # -e . # This is run the setup.py file
