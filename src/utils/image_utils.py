@@ -6,7 +6,7 @@ from io import BytesIO
 
 import base64
 
-from utils import logger
+from logger.logging_config import logger
 
 
 @ensure_annotations
