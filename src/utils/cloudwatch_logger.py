@@ -11,9 +11,9 @@ class CloudWatchLogger:
         from utils.aws_client import AWSClient
         from utils.base_utils import load_env_variables
 
+        load_env_variables() 
         aws = AWSClient(region_name)
         self.logs_client = aws.session.client("logs")
-        load_env_variables() 
 
     
     def get_handler(self, logger_name: str) -> logging.Handler | None:
@@ -28,7 +28,10 @@ class CloudWatchLogger:
             boto3_client=self.logs_client,
             log_group=log_group,
             stream_name=log_stream,
-            create_log_group=True
+            create_log_group=True,
+            send_interval=1,
+            max_batch_size=2,
+            use_queues=False
         )
 
         formatter = logging.Formatter(
