@@ -32,15 +32,22 @@ if __name__ == "__main__":
     try:
         logger.info(f">>>>> STAGE {STAGE_NAME} STARTED <<<<<")
 
+        # Original image paths
         images = [
             Path("temp/p1.png"),
             Path("temp/p2.png")
         ]
 
-        pipeline = PredictionPipeline()
-        output = pipeline.main(images)
+        # Filter only existing files
+        existing_images = [img for img in images if img.exists()]
 
-        logger.info(f"Prediction Output: {output}")
+        if not existing_images:
+            logger.warning("No images found to process. Skipping prediction stage.")
+        else:
+            pipeline = PredictionPipeline()
+            output = pipeline.main(existing_images)
+            logger.info(f"Prediction Output: {output}")
+
         logger.info(f">>>>> STAGE {STAGE_NAME} COMPLETED <<<<< \n\n")
 
     except Exception as e:
