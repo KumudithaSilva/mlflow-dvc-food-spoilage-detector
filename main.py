@@ -61,9 +61,13 @@ if __name__ == "__main__":
         Path("temp/p1.png"),
         Path("temp/p2.png")
     ]
-    prediction_output = run_stage(
-        "Prediction Stage",
-        PredictionPipeline,
-        images_to_predict
-    )
-    logger.info(f"Final Prediction Output: {prediction_output}")
+    existing_images = [img for img in images_to_predict if img.exists()]
+    if not existing_images:
+        logger.warning("No images found to process. Skipping prediction stage.")
+    else:
+        prediction_output = run_stage(
+            "Prediction Stage",
+            PredictionPipeline,
+            images_to_predict
+        )
+        logger.info(f"Final Prediction Output: {prediction_output}")
