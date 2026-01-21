@@ -102,21 +102,24 @@ def save_json(path_to_save: Path, data: dict):
 def load_env_variables():
     """
     Loads environment variables from a .env file located in the current or parent directories.
-
+    Environment variables already set (e.g., in Docker/ECS) are used directly.
+    
     Raises:
-        FileNotFoundError: If the .env file is not found.
+        Exception: If loading the .env file fails.
     """
-
     try:
         dotenv_path = find_dotenv()
-        if not dotenv_path:
-            raise FileNotFoundError(".env file not found in current or parent directories")
+        if dotenv_path:
+            load_dotenv(dotenv_path)
+            logger.info(f".env file loaded from: {dotenv_path}")
+        else:
+            logger.info(".env file not found; using existing environment variables")
+    except ImportError:
+        # dotenv is not installed — just use existing environment variables
+        logger.info("python-dotenv not installed; using existing environment variables")
     except Exception as e:
-        logger.error(f"Error finding .env file: {e}")
+        logger.error(f"Error loading .env file: {e}")
         raise
-    
-    load_dotenv(dotenv_path)
-    logger.info(f".env file loaded from: {dotenv_path}")
 
 # @ensure_annotations
 # def load_json(path_json: Path) -> ConfigBox:
