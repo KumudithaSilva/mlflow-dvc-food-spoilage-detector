@@ -1,0 +1,39 @@
+FROM python:3.10-slim
+
+# ========================
+# Environment variables
+# ========================
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app/src
+
+# ========================
+# Set working directory
+# ========================
+WORKDIR /app
+
+# ========================
+# Install dependencies
+# ========================
+COPY fastapi-requirement.txt .
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r fastapi-requirement.txt
+
+# ========================
+# Copy only necessary files for prediction
+# ========================
+COPY src/ ./src/
+COPY config/ ./config/
+COPY params.yaml ./params.yaml
+COPY app.py ./app.py
+
+# ========================
+# Expose Fast-api ports
+# ========================
+EXPOSE 8000
+
+# ========================
+# Run FastAPI 
+# ========================
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+
