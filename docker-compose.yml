@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile.fastapi
+    image: fastapi-app:latest
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    image: streamapp:latest
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    depends_on:
+      - fastapi
