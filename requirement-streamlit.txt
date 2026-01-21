@@ -1,0 +1,7 @@
+streamlit==1.53.0
+python-box==6.0.2
+pyYAML==6.0.3
+ensure==1.0.4
+types-pyYAML==6.0.12.20250915
+python-dotenv==1.2.1
+watchtower==3.4.0

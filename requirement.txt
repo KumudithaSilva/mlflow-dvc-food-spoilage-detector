@@ -36,6 +36,12 @@ watchtower==3.4.0
 # streamlit run streamlit_app.py
 # pip index versions tensorflow
 
+# docker tag fastapi-app:latest kumudithasilva/mlops-fastapi-streamlit:fastapi
+# docker tag streamapp:latest kumudithasilva/mlops-fastapi-streamlit:streamlit
+
+# docker push kumudithasilva/mlops-fastapi-streamlit:fastapi
+# docker push kumudithasilva/mlops-fastapi-streamlit:streamlit
+
 ############################################################
 
 
