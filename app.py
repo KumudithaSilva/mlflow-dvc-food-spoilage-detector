@@ -58,7 +58,13 @@ class ImageRequest(BaseModel):
 # Prediction Endpoint
 # ------------------------------------------------------------
 
-@app.post("/predict")
+
+@app.get("/api/health")
+def health_check():
+    return {"status": "ok"}
+
+
+@app.post("/api/predict")
 def predict(data: ImageRequest):
     """
     1. Generate unique object key
