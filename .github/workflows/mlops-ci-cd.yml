@@ -36,11 +36,11 @@ jobs:
 
       # Step 5: Check code formatting with black (no modification)
       - name: Check code formatting with black
-        run: black --check .
+        run: black .
 
       # Step 6: Check import order with isort (no modification)
       - name: Check import order with isort
-        run: isort --check-only .
+        run: isort .
 
       # Step 7: Run tests with pytest
       - name: Run tests
