@@ -42,6 +42,8 @@ watchtower==3.4.0
 # docker push kumudithasilva/mlops-fastapi-streamlit:fastapi
 # docker push kumudithasilva/mlops-fastapi-streamlit:streamlit
 
+# python -m pytest tests/test_api.py -v
+
 ############################################################
 
 
