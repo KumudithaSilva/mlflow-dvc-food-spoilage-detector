@@ -1,16 +1,15 @@
+import os
+import traceback
+import uuid
 from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 from pydantic import BaseModel
+
 from pipeline.stage_07_prediction import PredictionPipeline
 from utils.image_utils import decodeImageToPNGBytes, saveBytesToFile
-import traceback
-import os 
-import uuid
 from utils.s3_utils import S3Client
-
 
 # ------------------------------------------------------------
 # FastAPI App
@@ -39,7 +38,7 @@ UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 S3_BUCKET = os.getenv("S3_BUCKET", "food-spoilage-ml")
 S3_BUCKET_DIR = os.getenv("S3_BUCKET_DIR", "user-uploads")
-s3_client = S3Client() 
+s3_client = S3Client()
 
 # ------------------------------------------------------------
 # Load Prediction Pipeline ONCE
@@ -51,8 +50,10 @@ prediction_pipeline = PredictionPipeline()
 # Request Schema
 # ------------------------------------------------------------
 
+
 class ImageRequest(BaseModel):
     image: str
+
 
 # ------------------------------------------------------------
 # Prediction Endpoint
@@ -77,7 +78,7 @@ def predict(data: ImageRequest):
 
         image_path = UPLOAD_DIR / image_name
         s3_key = f"{S3_BUCKET_DIR}/{image_name}"
-        
+
         # Decode base64
         file_obj = decodeImageToPNGBytes(data.image)
 
@@ -86,20 +87,13 @@ def predict(data: ImageRequest):
 
         # Upload to S3
         s3_client.upload_fileobj(file_obj, S3_BUCKET, s3_key)
-    
+
         # run prediction
         result = prediction_pipeline.main([image_path])
 
         return result
-    
+
     except Exception as e:
         traceback.print_exc()
-        
+
         return {"error": str(e)}
-
-
-
-
-
-
-

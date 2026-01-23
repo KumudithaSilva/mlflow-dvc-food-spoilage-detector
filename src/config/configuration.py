@@ -1,14 +1,15 @@
-import os
 from pathlib import Path
 
 from constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
-from entity.config_entity import (DataIngestionConfig, DataPreprocessingConfig,
-                                  PrepareBaseModelConfig, TrainingConfig, EvaluationConfig, PredictionConfig, AWSConfig, S3Config, ModelHandlerConfig)
+from entity.config_entity import (AWSConfig, DataIngestionConfig,
+                                  DataPreprocessingConfig, EvaluationConfig,
+                                  ModelHandlerConfig, PredictionConfig,
+                                  PrepareBaseModelConfig, S3Config,
+                                  TrainingConfig)
 from utils.base_utils import create_directories, read_yaml
 
 
 class ConfigurationManager:
-
     def __init__(self, config_filepath=CONFIG_FILE_PATH, param_path=PARAMS_FILE_PATH):
         self.config = read_yaml(config_filepath)
         self.params = read_yaml(param_path)
@@ -78,39 +79,39 @@ class ConfigurationManager:
             params_learning_rate=params.LEARNING_RATE,
             data_split_seed=params.SEED,
             aws=AWSConfig(
-                 region=training_config.aws.region,
-                 s3=S3Config(
-                      bucket=training_config.aws.s3.bucket,
-                      model_prefix=training_config.aws.s3.model_prefix
-                 )
-            )
+                region=training_config.aws.region,
+                s3=S3Config(
+                    bucket=training_config.aws.s3.bucket,
+                    model_prefix=training_config.aws.s3.model_prefix,
+                ),
+            ),
         )
 
         return training_config
-    
+
     def get_model_handler_config(self) -> ModelHandlerConfig:
-         model_handler_config = self.config.model_handler
+        model_handler_config = self.config.model_handler
 
-         create_directories([model_handler_config.cache_dir])
+        create_directories([model_handler_config.cache_dir])
 
-         model_config = ModelHandlerConfig(
-              aws=AWSConfig(
-                 region=model_handler_config.aws.region,
-                 s3=S3Config(
-                      bucket=model_handler_config.aws.s3.bucket,
-                      model_prefix=model_handler_config.aws.s3.model_prefix
-                 )
+        model_config = ModelHandlerConfig(
+            aws=AWSConfig(
+                region=model_handler_config.aws.region,
+                s3=S3Config(
+                    bucket=model_handler_config.aws.s3.bucket,
+                    model_prefix=model_handler_config.aws.s3.model_prefix,
+                ),
             ),
-            cache_dir=Path(model_handler_config.cache_dir)
-         )
-         return model_config
+            cache_dir=Path(model_handler_config.cache_dir),
+        )
+        return model_config
 
     def get_evaluation_config(self) -> EvaluationConfig:
         eval_config = self.config.model_evaluation
         params = self.params
 
         create_directories([eval_config.root_dir])
-        
+
         evaluation_config = EvaluationConfig(
             root_dir=Path(eval_config.root_dir),
             trained_model_path=Path(eval_config.trained_model_path),
@@ -125,13 +126,13 @@ class ConfigurationManager:
         return evaluation_config
 
     def get_prediction_config(self) -> PredictionConfig:
-            pred_config = self.config.prediction
+        pred_config = self.config.prediction
 
-            create_directories([pred_config.root_dir])
+        create_directories([pred_config.root_dir])
 
-            prediction_config = PredictionConfig(
-                root_dir=Path(pred_config.root_dir),
-                trained_model_path=Path(pred_config.trained_model_path),
-                prediction_output_file=Path(pred_config.prediction_output_file),
-            )
-            return prediction_config
+        prediction_config = PredictionConfig(
+            root_dir=Path(pred_config.root_dir),
+            trained_model_path=Path(pred_config.trained_model_path),
+            prediction_output_file=Path(pred_config.prediction_output_file),
+        )
+        return prediction_config

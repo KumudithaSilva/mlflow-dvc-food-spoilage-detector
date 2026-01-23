@@ -1,10 +1,12 @@
 # streamlit_app.py
-import streamlit as st
-import requests
-from PIL import Image
-import io
 import base64
+import io
 import os
+
+import requests
+import streamlit as st
+from PIL import Image
+
 from utils.base_utils import load_env_variables
 
 # ------------------------------
@@ -18,8 +20,8 @@ st.title("🍎 Food Spoilage Detector")
 st.write("Upload an image of food and get instant spoilage prediction!")
 
 CLASS_EMOJIS = {
-    0: "🍎 Fresh Apple",      
-    1: "🤢 Rotten Apple",    
+    0: "🍎 Fresh Apple",
+    1: "🤢 Rotten Apple",
 }
 
 # ------------------------------
@@ -33,7 +35,6 @@ if uploaded_file:
     st.image(image, caption="Uploaded Image", width="content")
     st.write("")
 
-
     if st.button("Predict Spoilage"):
         with st.spinner("Analyzing..."):
             try:
@@ -41,7 +42,7 @@ if uploaded_file:
                 # Convert image to base64
                 buffered = io.BytesIO()
                 image.save(buffered, format="PNG")
-                img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")   
+                img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
 
                 # Send POST request to FastAPI
                 response = requests.post(API_URL, json={"image": img_str}, timeout=30)
@@ -56,7 +57,9 @@ if uploaded_file:
                 if "error" in result:
                     st.error(f"Error: {result['error']}")
                 else:
-                    st.success(f"Prediction Result: {class_idx} with {confidence:.2f}% confidence")
+                    st.success(
+                        f"Prediction Result: {class_idx} with {confidence:.2f}% confidence"
+                    )
                     st.write(result)
 
             except Exception as e:

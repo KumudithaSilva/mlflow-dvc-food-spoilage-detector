@@ -1,6 +1,8 @@
-import os
 import logging
+import os
+
 import watchtower
+
 
 class CloudWatchLogger:
     """
@@ -11,16 +13,15 @@ class CloudWatchLogger:
         from utils.aws_client import AWSClient
         from utils.base_utils import load_env_variables
 
-        load_env_variables() 
+        load_env_variables()
         aws = AWSClient(region_name)
         self.logs_client = aws.session.client("logs")
 
-    
     def get_handler(self, logger_name: str) -> logging.Handler | None:
         # dynamically enable and disable logs
         if os.getenv("ENABLE_CLOUDWATCH_LOGS", "false").lower() != "true":
             return None
-        
+
         log_group = os.getenv("CLOUDWATCH_LOG_GROUP", "fsd-logs")
         log_stream = os.getenv("CLOUDWATCH_LOG_STREAM", logger_name)
 
@@ -31,7 +32,7 @@ class CloudWatchLogger:
             create_log_group=True,
             send_interval=1,
             max_batch_size=2,
-            use_queues=False
+            use_queues=False,
         )
 
         formatter = logging.Formatter(
@@ -40,5 +41,3 @@ class CloudWatchLogger:
         handler.setFormatter(formatter)
 
         return handler
-    
-    

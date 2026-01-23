@@ -1,17 +1,17 @@
-import boto3
 from pathlib import Path
-from ensure import ensure_annotations
+
 from logger.logging_config import logger
 from utils.aws_client import AWSClient
+
 
 class S3Client:
     """
     Stateless S3 client wrapper.
     """
+
     def __init__(self, region_name: str = "us-east-1"):
         aws = AWSClient(region_name)
         self.client = aws.session.client("s3")
-    
 
     def upload_fileobj(self, file_obj, bucket: str, key: str) -> None:
         """
@@ -26,7 +26,7 @@ class S3Client:
             None
         """
         self.client.upload_fileobj(file_obj, bucket, key)
-    
+
     # @ensure_annotations
     def upload_model(self, local_path: Path, bucket: str, key: str) -> None:
         """
@@ -43,7 +43,7 @@ class S3Client:
         if not local_path.exists():
             logger.exception(f"Model local file path not found at {local_path}")
         self.client.upload_file(str(local_path), bucket, key)
-    
+
     # @ensure_annotations
     def download_model(self, bucket: str, key: str, cache_path: Path) -> None:
         """
@@ -54,4 +54,4 @@ class S3Client:
             bucket (str): AWS S3 Bucket
             key (str): AWS S3 Key
         """
-        self.client.download_file(Bucket=bucket,Key=key,Filename=str(cache_path))
+        self.client.download_file(Bucket=bucket, Key=key, Filename=str(cache_path))

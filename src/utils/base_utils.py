@@ -1,14 +1,13 @@
+import json
 import os
 from pathlib import Path
 
 import yaml
 from box import ConfigBox
+from dotenv import find_dotenv, load_dotenv
 from ensure import ensure_annotations
 
 from logger.logging_config import logger
-
-from dotenv import load_dotenv, find_dotenv
-import json
 
 
 @ensure_annotations
@@ -82,14 +81,14 @@ def save_json(path_to_save: Path, data: dict):
         if path_to_save.exists():
             with open(path_to_save, "r") as json_file:
                 existing_data = json.load(json_file)
-            
+
             if not isinstance(existing_data, list):
                 existing_data = [existing_data]
         else:
             existing_data = []
-        
+
         existing_data.append(data)
-        
+
         with open(path_to_save, "w") as json_file:
             json.dump(existing_data, json_file, indent=4)
             logger.info(f"JSON file saved at {path_to_save}")
@@ -98,12 +97,13 @@ def save_json(path_to_save: Path, data: dict):
         logger.error(f"Error saving JSON file at {path_to_save}: {e}")
         raise e
 
+
 @ensure_annotations
 def load_env_variables():
     """
     Loads environment variables from a .env file located in the current or parent directories.
     Environment variables already set (e.g., in Docker/ECS) are used directly.
-    
+
     Raises:
         Exception: If loading the .env file fails.
     """
@@ -120,6 +120,7 @@ def load_env_variables():
     except Exception as e:
         logger.error(f"Error loading .env file: {e}")
         raise
+
 
 # @ensure_annotations
 # def load_json(path_json: Path) -> ConfigBox:

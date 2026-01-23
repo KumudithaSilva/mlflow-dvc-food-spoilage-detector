@@ -5,6 +5,7 @@ from logger.logging_config import logger
 
 STAGE_NAME = "Data Preprocssing Stage"
 
+
 class DataPreprocessTraningPipeline:
     def __init__(self):
         pass

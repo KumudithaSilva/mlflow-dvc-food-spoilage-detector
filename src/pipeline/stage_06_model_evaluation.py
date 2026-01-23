@@ -1,10 +1,11 @@
 # Pipeleline
-from components.model_handler import ModelHandler
 from components.model_evaluation import ModelEvaluation
+from components.model_handler import ModelHandler
 from config.configuration import ConfigurationManager
 from logger.logging_config import logger
 
 STAGE_NAME = "Model Evaluation Stage"
+
 
 class EvaluationPipeline:
     def __init__(self):
@@ -21,7 +22,9 @@ class EvaluationPipeline:
             # Initialize the ModelHandler class
             model_handler = ModelHandler(config=model_handler_config)
             # Initialize the ModelEvaluation class
-            model_eval = ModelEvaluation(config=eval_config, model_handler=model_handler)
+            model_eval = ModelEvaluation(
+                config=eval_config, model_handler=model_handler
+            )
             # Create the validation generator
             model_eval.validation_generator()
             # Evaluate the model
@@ -35,8 +38,8 @@ class EvaluationPipeline:
             # model_eval.log_evaluation_metrics()
         except Exception as e:
             raise e
-    
-        
+
+
 if __name__ == "__main__":
     try:
         logger.info(f">>>>> STAGE {STAGE_NAME} STARTED <<<<<")

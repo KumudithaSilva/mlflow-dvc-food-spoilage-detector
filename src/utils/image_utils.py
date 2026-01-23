@@ -1,10 +1,9 @@
+import base64
+from io import BytesIO
 from pathlib import Path
 
 from ensure import ensure_annotations
 from PIL import Image
-from io import BytesIO
-
-import base64
 
 from logger.logging_config import logger
 
@@ -75,7 +74,7 @@ def decodeImageToPNGBytes(imageData: str) -> BytesIO:
 
     except Exception as e:
         raise e
-    
+
 
 def saveBytesToFile(file_obj: BytesIO, path: Path) -> Path:
     """
@@ -104,4 +103,3 @@ def saveBytesToFile(file_obj: BytesIO, path: Path) -> Path:
     except Exception as e:
         logger.exception(f"Failed to save BytesIO to {path}")
         raise e
-        

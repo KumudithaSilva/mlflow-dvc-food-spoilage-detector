@@ -80,6 +80,7 @@ class EvaluationConfig:
     data_split_seed: int
     reportfile: Path
 
+
 @dataclass(frozen=True)
 class PredictionConfig:
     root_dir: Path

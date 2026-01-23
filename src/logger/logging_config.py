@@ -1,7 +1,8 @@
+import atexit
 import logging
 import os
 import sys
-import atexit
+
 from utils.cloudwatch_logger import CloudWatchLogger
 
 # -----------------------------
@@ -23,8 +24,10 @@ logging.basicConfig(
 
 logger = logging.getLogger("fsd_logger")
 
+
 def get_logger(name: str) -> logging.Logger:
     return logging.getLogger(name)
+
 
 # -----------------------------
 # CloudWatch logging
@@ -45,6 +48,8 @@ except Exception as e:
 # -----------------------------
 # Flush & close all handlers on exit
 # -----------------------------
+
+
 def flush_and_close_handlers():
     root_logger = logging.getLogger()
     for handler in root_logger.handlers:
@@ -56,5 +61,6 @@ def flush_and_close_handlers():
         except Exception as e:
             print(f"Error flushing/closing handler {handler}: {e}", file=sys.stderr)
     logging.shutdown()
+
 
 atexit.register(flush_and_close_handlers)

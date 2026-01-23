@@ -5,6 +5,7 @@ from logger.logging_config import logger
 
 STAGE_NAME = "Model Handler Stage"
 
+
 class ModelHandlerPipeline:
     def __init__(self):
         pass
@@ -22,8 +23,8 @@ class ModelHandlerPipeline:
 
         except Exception as e:
             raise e
-    
-        
+
+
 if __name__ == "__main__":
     try:
         logger.info(f">>>>> STAGE {STAGE_NAME} STARTED <<<<<")
