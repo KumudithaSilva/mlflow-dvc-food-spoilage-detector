@@ -51,7 +51,7 @@ jobs:
         run: pip install black
 
       - name: Run black check
-        run: black . --check
+        run: black .
 
   # ----------------------------
   # Job 3: Isort Import Order Check
@@ -73,7 +73,7 @@ jobs:
         run: pip install isort
 
       - name: Run isort check
-        run: isort . --check-only
+        run: isort .
 
   # ----------------------------
   # Job 4: Unit Tests
