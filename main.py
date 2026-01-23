@@ -6,7 +6,8 @@ from pipeline.stage_05_model_handler import ModelHandlerPipeline
 from pipeline.stage_06_model_evaluation import EvaluationPipeline
 from pipeline.stage_07_prediction import PredictionPipeline
 from pipeline.state_02_data_preprocess import DataPreprocessTraningPipeline
-from pipeline.state_03_prepare_base_model import PrepareBaseModelTraningPipeline
+from pipeline.state_03_prepare_base_model import \
+    PrepareBaseModelTraningPipeline
 from pipeline.state_04_model_training import TraningPipeline
 
 
