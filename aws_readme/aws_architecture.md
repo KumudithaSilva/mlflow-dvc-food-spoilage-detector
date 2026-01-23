@@ -27,7 +27,7 @@ Both services:
 ## 🗺️ High-Level Architecture
 
 <p align="center">
-  <img src="aws_readme/aws_current.png" alt="AWS ECS Architecture Diagram" width="700">
+  <img src="aws_current.png" alt="AWS ECS Architecture Diagram" width="700">
 </p>
 
 
