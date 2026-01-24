@@ -84,7 +84,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [flake8, black, isort] 
     env:
-      PYTHONPATH: /app/src
+      PYTHONPATH: /src
 
     steps:
       - name: Checkout repository
