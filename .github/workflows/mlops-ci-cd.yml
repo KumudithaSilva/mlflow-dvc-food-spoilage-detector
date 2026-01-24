@@ -78,8 +78,8 @@ jobs:
   # ----------------------------
   # Job 4: AWS Auth + ECR Login Test
   # ----------------------------
-  aws-auth-test:
-    name: Test AWS Credentials & ECR Login
+  aws-login:
+    name: AWS Auth & ECR Login
     runs-on: ubuntu-latest
     needs: [flake8, black, isort]
 
