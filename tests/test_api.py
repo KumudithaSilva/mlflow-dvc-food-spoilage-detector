@@ -22,8 +22,9 @@ UPLOAD_DIR = Path(os.getenv("OBJECT_STORE_ROOT", "temp"))
 UPLOAD_DIR.mkdir(exist_ok=True)
 
 
-@patch("app.s3_client.upload_fileobj")
-def test_predict_endpoint(mock_s3_upload):
+@patch("app.prediction_pipeline.main")  # Mock prediction
+@patch("app.s3_client.upload_fileobj")  # Mock S3 upload
+def test_predict_endpoint(mock_s3_upload, mock_predict):
     """
     Test the /api/predict endpoint with a dummy in-memory image.
     Steps:
@@ -35,7 +36,14 @@ def test_predict_endpoint(mock_s3_upload):
     """
 
     # ---------------------------
-    # 1. Create a dummy image in memory
+    # Create a dummy model output
+    # ---------------------------
+    mock_predict.return_value = [
+        {"class_index": 0, "confidence": 0.99, "image": "dummy.png"}
+    ]
+
+    # ---------------------------
+    # Create a dummy image in memory
     # ---------------------------
     dummy_img = Image.new("RGB", (10, 10), color=(255, 0, 0))
     img_bytes_io = BytesIO()
@@ -43,17 +51,17 @@ def test_predict_endpoint(mock_s3_upload):
     img_bytes_io.seek(0)
 
     # ---------------------------
-    # 2. Encode image to base64
+    # Encode image to base64
     # ---------------------------
     img_b64 = base64.b64encode(img_bytes_io.read()).decode("utf-8")
 
     # ---------------------------
-    # 3. Call the /api/predict endpoint
+    # Call the /api/predict endpoint
     # ---------------------------
     response = client.post("/api/predict", json={"image": img_b64})
 
     # ---------------------------
-    # 4. Basic response check
+    # Basic response check
     # ---------------------------
     assert response.status_code == 200
 
@@ -61,22 +69,18 @@ def test_predict_endpoint(mock_s3_upload):
     result = response.json()
 
     # ---------------------------
-    # 5. Check response structure
+    # Check response structure
     # ---------------------------
     # The prediction pipeline returns a list of dictionaries
 
-    assert isinstance(result, list)  # Check it is a list
-    assert len(result) > 0  # Ensure list is not empty
+    assert isinstance(result, list)
+    assert len(result) > 0
 
-    # Check keys in the first element
     first_item = result[0]
     expected_keys = {"class_index", "confidence", "image"}
-
-    # Ensure first prediction dict contains all expected keys
     assert expected_keys.issubset(first_item.keys())
 
     # ---------------------------
-    # 6. Ensure S3 upload was called
-    # ---------------------------
     # Ensure S3 upload was called
+    # ---------------------------
     mock_s3_upload.assert_called()
