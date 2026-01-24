@@ -83,6 +83,8 @@ jobs:
     name: Run Tests with Pytest
     runs-on: ubuntu-latest
     needs: [flake8, black, isort] 
+    env:
+      PYTHONPATH: /app/src
 
     steps:
       - name: Checkout repository
@@ -100,7 +102,6 @@ jobs:
 
       - name: Run tests
         run: |
-          export PYTHONPATH=/app/src
           python -m pytest tests --maxfail=5 --disable-warnings -q
 
   # ----------------------------
