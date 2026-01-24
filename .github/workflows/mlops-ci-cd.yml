@@ -100,6 +100,7 @@ jobs:
 
       - name: Run tests
         run: |
+          export PYTHONPATH=/app/src
           python -m pytest tests --maxfail=5 --disable-warnings -q
 
   # ----------------------------
