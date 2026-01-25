@@ -75,14 +75,66 @@ jobs:
 
       - name: Run isort check
         run: isort .
+  
+  # ----------------------------
+  # Job 4: Bandit Security Linting
+  # ----------------------------
+  bandit:
+    name: Security linting with Bandit
+    runs-on: ubuntu-latest
+    needs: [flake8, black, isort] 
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Bandit
+        run: pip install bandit
+
+      - name: Run Bandit
+        run: bandit -r ${{ github.workspace }}/src  -ll
+
 
   # ----------------------------
-  # Job 4: Run Pytest
+  # Job 5: DVC Pull Data & Models
+  # ----------------------------
+  dvc-pull:
+      name: Pull data & models with DVC
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+
+        - name: Set up Python
+          uses: actions/setup-python@v4
+          with:
+            python-version: '3.10'
+
+        - name: Install DVC
+          run: pip install "dvc[all]"
+
+        - name: Configure DVC remote (DagsHub)
+          run: |
+            dvc remote modify origin auth basic --local
+            dvc remote modify origin user ${{ secrets.DAGSHUB_USERNAME }} --local
+            dvc remote modify origin password ${{ secrets.DAGSHUB_TOKEN }} --local
+
+        - name: Pull data & models from DagsHub
+          run: dvc pull
+
+  # ----------------------------
+  # Job 6: Run Pytest
   # ----------------------------
   pytest:
     name: Run Tests with Pytest
     runs-on: ubuntu-latest
-    needs: [flake8, black, isort] 
+    needs: [dvc-pull, bandit, flake8, black, isort] 
     env:
       PYTHONPATH: ${{ github.workspace }}/src 
 
@@ -105,12 +157,12 @@ jobs:
           python -m pytest tests --maxfail=5 --disable-warnings -q
 
   # ----------------------------
-  # Job 5: AWS Auth + ECR Login Test
+  # Job 7: AWS Auth + ECR Login Test
   # ----------------------------
   aws-login:
     name: AWS Auth & ECR Login
     runs-on: ubuntu-latest
-    needs: [flake8, black, isort, pytest]
+    needs: [pytest]
     if: github.ref == 'refs/heads/master'
 
     steps:
@@ -125,7 +177,7 @@ jobs:
         run: aws sts get-caller-identity
 
   # ----------------------------
-  # Job 6: Docker Build & Push to ECR
+  # Job 8: Docker Build & Push to ECR
   # ----------------------------
   docker-build-push:
     name: Build & Push Docker Images to ECR

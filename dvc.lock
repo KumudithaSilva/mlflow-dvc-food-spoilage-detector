@@ -5,12 +5,12 @@ stages:
     deps:
     - path: config/config.yaml
       hash: md5
-      md5: e481c2b4eadc6c2dc717a2c0ee3feb04
-      size: 1536
+      md5: d82af146e59bf3b713c5379d4310d193
+      size: 1860
     - path: src/pipeline/stage_01_data_ingestion.py
       hash: md5
-      md5: 92352fe54c8dd1ae0cd313b0c523112e
-      size: 1294
+      md5: b98b6c85864129189d196fdb13193306
+      size: 1310
     outs:
     - path: data/Food_Spoilage_Dataset
       hash: md5
@@ -22,8 +22,8 @@ stages:
     deps:
     - path: config/config.yaml
       hash: md5
-      md5: e481c2b4eadc6c2dc717a2c0ee3feb04
-      size: 1536
+      md5: d82af146e59bf3b713c5379d4310d193
+      size: 1860
     - path: data/Food_Spoilage_Dataset
       hash: md5
       md5: 98c350169093b288307569b5e637c76c.dir
@@ -31,8 +31,8 @@ stages:
       nfiles: 150
     - path: src/pipeline/state_02_data_preprocess.py
       hash: md5
-      md5: a2a2eeea1c04531ce939cef3eb01c7f3
-      size: 1179
+      md5: 61aec8317e1a87272006aeddbc53c8e0
+      size: 1197
     outs:
     - path: artifacts/data_preprocessing/Food_Spoilage_Dataset
       hash: md5
@@ -44,16 +44,16 @@ stages:
     deps:
     - path: config/config.yaml
       hash: md5
-      md5: e481c2b4eadc6c2dc717a2c0ee3feb04
-      size: 1536
+      md5: d82af146e59bf3b713c5379d4310d193
+      size: 1860
     - path: src/pipeline/state_03_prepare_base_model.py
       hash: md5
-      md5: 0ccf4d172188d8ff38554d2243cf7299
-      size: 1062
+      md5: 8789bdf339e7e97a7c5b361baaeec445
+      size: 1078
     outs:
     - path: artifacts/prepare_base_model/updated_base_model.h5
       hash: md5
-      md5: 7706c365ae43fd35070642f07c3e8d8d
+      md5: 75e939ee0310f88dbe91817b03e5473c
       size: 59136192
   training:
     cmd: python src/pipeline/state_04_model_training.py
@@ -65,20 +65,20 @@ stages:
       nfiles: 150
     - path: artifacts/prepare_base_model/updated_base_model.h5
       hash: md5
-      md5: 7706c365ae43fd35070642f07c3e8d8d
+      md5: 75e939ee0310f88dbe91817b03e5473c
       size: 59136192
     - path: config/config.yaml
       hash: md5
-      md5: e481c2b4eadc6c2dc717a2c0ee3feb04
-      size: 1536
+      md5: d82af146e59bf3b713c5379d4310d193
+      size: 1860
     - path: params.yaml
       hash: md5
       md5: d815856b7ec68ea9053b02fe7a09b05f
       size: 157
     - path: src/pipeline/state_04_model_training.py
       hash: md5
-      md5: 08a6bb783c09aa4fc0c71e351f452903
-      size: 1089
+      md5: e00e96715cde172326ecc18643b66571
+      size: 1105
     outs:
     - path: artifacts/training/class_indices.json
       hash: md5
@@ -86,58 +86,65 @@ stages:
       size: 61
     - path: artifacts/training/model.h5
       hash: md5
-      md5: 6dc7764c9846380ab37e26feb138d04c
-      size: 59544224
-    - path: model/model.h5
-      hash: md5
-      md5: 6dc7764c9846380ab37e26feb138d04c
+      md5: b6b98dd3dcf5fe587c744bed68d33276
       size: 59544224
   evaluation:
-    cmd: python src/pipeline/stage_05_model_evaluation.py
+    cmd: python src/pipeline/stage_06_model_evaluation.py
     deps:
     - path: artifacts/data_preprocessing/Food_Spoilage_Dataset
       hash: md5
       md5: 45cee644133cf4ca97135ff05ecf2b23.dir
       size: 8388566
       nfiles: 150
-    - path: artifacts/training/model.h5
-      hash: md5
-      md5: 6dc7764c9846380ab37e26feb138d04c
-      size: 59544224
     - path: config/config.yaml
       hash: md5
-      md5: e481c2b4eadc6c2dc717a2c0ee3feb04
-      size: 1536
+      md5: d82af146e59bf3b713c5379d4310d193
+      size: 1860
+    - path: model/model.h5
+      hash: md5
+      md5: b6b98dd3dcf5fe587c744bed68d33276
+      size: 59544224
     - path: params.yaml
       hash: md5
       md5: d815856b7ec68ea9053b02fe7a09b05f
       size: 157
-    - path: src/pipeline/stage_05_model_evaluation.py
+    - path: src/pipeline/stage_06_model_evaluation.py
       hash: md5
-      md5: 1c0deaf1ada68a3b807e7259f588429d
-      size: 1461
+      md5: a62654db9296d8d7d520581358ddc5ed
+      size: 1820
     outs:
     - path: artifacts/model_evaluation/report.json
       hash: md5
-      md5: 54a5cee21825227153dbcdf42c6ad8c3
+      md5: 909d62e75b6bd9fb68096d79312c26ba
       size: 213
   prediction:
-    cmd: python src/pipeline/stage_06_prediction.py
+    cmd: python src/pipeline/stage_07_prediction.py
     deps:
     - path: config/config.yaml
       hash: md5
-      md5: e481c2b4eadc6c2dc717a2c0ee3feb04
-      size: 1536
+      md5: d82af146e59bf3b713c5379d4310d193
+      size: 1860
     - path: model/model.h5
       hash: md5
-      md5: 6dc7764c9846380ab37e26feb138d04c
+      md5: b6b98dd3dcf5fe587c744bed68d33276
       size: 59544224
-    - path: src/pipeline/stage_06_prediction.py
+    - path: src/pipeline/stage_07_prediction.py
       hash: md5
-      md5: 9faaf00795846c7f3c2a60b1ef9abad3
-      size: 1317
+      md5: 3c81cfbc24ee47eae00ee5e47ed06d08
+      size: 1810
+  model_handler:
+    cmd: python src/pipeline/stage_05_model_handler.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: d82af146e59bf3b713c5379d4310d193
+      size: 1860
+    - path: src/pipeline/stage_05_model_handler.py
+      hash: md5
+      md5: 99364349befd2be81a17374ff84bdcd8
+      size: 1108
     outs:
-    - path: artifacts/prediction/predictions.json
+    - path: model/model.h5
       hash: md5
-      md5: 0ac4ea8cd746112ff256a6bf2dbe2fb5
-      size: 343
+      md5: b6b98dd3dcf5fe587c744bed68d33276
+      size: 59544224
