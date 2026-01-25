@@ -77,7 +77,35 @@ jobs:
         run: isort .
 
   # ----------------------------
-  # Job 4: Run Pytest
+  # Job 4: DVC Pull Data & Models
+  # ----------------------------
+  dvc-pull:
+      name: Pull data & models with DVC
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+
+        - name: Set up Python
+          uses: actions/setup-python@v4
+          with:
+            python-version: '3.10'
+
+        - name: Install DVC
+          run: pip install "dvc[all]"
+
+        - name: Configure DVC remote (DagsHub)
+          run: |
+            dvc remote modify origin auth basic --local
+            dvc remote modify origin user ${{ secrets.DAGSHUB_USERNAME }} --local
+            dvc remote modify origin password ${{ secrets.DAGSHUB_TOKEN }} --local
+
+        - name: Pull data & models from DagsHub
+          run: dvc pull
+
+  # ----------------------------
+  # Job 5: Run Pytest
   # ----------------------------
   pytest:
     name: Run Tests with Pytest
@@ -105,7 +133,7 @@ jobs:
           python -m pytest tests --maxfail=5 --disable-warnings -q
 
   # ----------------------------
-  # Job 5: AWS Auth + ECR Login Test
+  # Job 6: AWS Auth + ECR Login Test
   # ----------------------------
   aws-login:
     name: AWS Auth & ECR Login
@@ -125,7 +153,7 @@ jobs:
         run: aws sts get-caller-identity
 
   # ----------------------------
-  # Job 6: Docker Build & Push to ECR
+  # Job 7: Docker Build & Push to ECR
   # ----------------------------
   docker-build-push:
     name: Build & Push Docker Images to ECR
