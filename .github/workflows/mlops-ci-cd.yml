@@ -163,7 +163,7 @@ jobs:
     name: AWS Auth & ECR Login
     runs-on: ubuntu-latest
     needs: [pytest]
-    if: github.ref == 'refs/heads/master'
+    if: false
 
     steps:
       - name: Configure AWS credentials
@@ -183,7 +183,7 @@ jobs:
     name: Build & Push Docker Images to ECR
     runs-on: ubuntu-latest
     needs: [aws-login, pytest]
-    if: github.ref == 'refs/heads/master'
+    if: false
 
     steps:
       - name: Checkout repository
