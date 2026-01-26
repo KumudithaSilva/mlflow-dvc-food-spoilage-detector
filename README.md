@@ -15,9 +15,6 @@
 <img src="https://img.shields.io/badge/Maintained-Yes-388E3C" />
 </p>
 
-<p align="center">
-  <img src="images/git-food-spoilage-detector.jpg" alt="Food Spoilage Detector" width="1200"/>
-</p>
 
 ---
 
@@ -97,7 +94,7 @@ Inspired by senior‑level software and MLOps practices, this system emphasizes:
 > 📌 **Detailed AWS architecture and design decisions are documented separately.**
 
 <p align="center">
-  <img src="images/aws_current.png" alt="AWS ECS Architecture Diagram" width="700">
+  <img src="images/aws_architecturae.png" alt="AWS ECS Architecture Diagram" width="700">
 </p>
 
 ➡️ **See:** [`aws_readme/aws_architecture.md`](aws_readme/aws_architecture.md)
@@ -173,6 +170,10 @@ This repository implements a **robust GitHub Actions pipeline**:
 * 🚀 Production deployment trigger on `master`
 
 This ensures **production readiness on every merge**.
+
+<p align="center">
+  <img src="images/food-spoilage-detector-ci-cd.png" alt="AWS ECS Architecture Diagram" width="900", height="250">
+</p>
 
 ---
 
