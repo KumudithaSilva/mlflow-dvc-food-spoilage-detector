@@ -110,7 +110,7 @@ Inspired by senior‑level software and MLOps practices, this system emphasizes:
 
 ---
 
-## 🔁 MLOps Lifecycle & Pipeline
+## 🔁 MLOps Lifecycle & Pipelinea
 
 This project follows a **fully reproducible, stage‑driven MLOps workflow**:
 
