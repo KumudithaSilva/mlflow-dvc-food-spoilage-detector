@@ -27,7 +27,9 @@ Both services:
 ## 🗺️ High-Level Architecture
 
 <p align="center">
-  <img src="../images/aws_architecturae.png" alt="AWS ECS Architecture Diagram" width="700">
+  <img src="../images/aws_architecturae.png" alt="AWS ECS Architecture Diagram"
+  width="900"
+  style="border-radius: 15px; border: 1px solid #ddd;">
 </p>
 
 
@@ -93,6 +95,14 @@ Application containers should never be exposed directly to the internet.
 - Attached to the VPC
 - Used **only by public subnets**
 
+<br>
+<p align="left">
+  <img src="../images/Igw.png" 
+  width="700"
+  style="border-radius: 15px; border: 1px solid #ddd;">
+</p>
+<br>
+
 ---
 
 ### 5️⃣ NAT Gateway (Outbound Internet Access)
@@ -103,7 +113,14 @@ Application containers should never be exposed directly to the internet.
   - Access S3
   - Send logs to CloudWatch
 
----
+<br>
+<p align="left">
+  <img src="../images/nat.png"
+   width="900"
+   style="border-radius: 15px; border: 1px solid #ddd;">
+</p>
+<br>
+
 
 ## 🔐 Security Groups (Zero-Trust Model)
 
@@ -116,6 +133,22 @@ Application containers should never be exposed directly to the internet.
 
 ✔ Internet-facing  
 ✔ Only public entry point  
+
+### ALB Inbound Security Group (`ALB-SG`)
+
+<p align="left">
+  <img src="../images/alb-mlops-security-group-inbound.png"
+    width="900"
+    style="border-radius: 15px; border: 1px solid #ddd;">
+</p>
+
+### ALB Outbound Security Group (`ALB-SG`)
+
+<p align="left">
+  <img src="../images/alb-mlops-security-group-outbound.png"
+       width="900"
+       style="border-radius: 15px; border: 1px solid #ddd;">
+</p>
 
 ---
 
@@ -130,6 +163,22 @@ Application containers should never be exposed directly to the internet.
 🚫 No `0.0.0.0/0` rules  
 
 **Only the ALB can talk to ECS containers**
+
+### ECS App Inbound Security Group (`ECS-App-SG`)
+
+<p align="left">
+  <img src="../images/ecs-security-group-inbound.png"
+    width="900"
+    style="border-radius: 15px; border: 1px solid #ddd;">
+</p>
+
+### ECS App Outbound Security Group (`ECS-App-SG`)
+
+<p align="left">
+  <img src="../images/ecs-security-group-outbound.png"
+       width="900"
+       style="border-radius: 15px; border: 1px solid #ddd;">
+</p>
 
 ---
 
@@ -155,6 +204,13 @@ Application containers should never be exposed directly to the internet.
 - Port: **8501**
 - Health check: `/`
 
+<br>
+<p align="left">
+  <img src="../images/resource-map-2.png"
+       width="900"
+       style="border-radius: 15px; border: 1px solid #ddd;">
+</p>
+
 ---
 
 ### 🔁 Listener Rules
@@ -172,6 +228,12 @@ Application containers should never be exposed directly to the internet.
 | `/` | Forward → Streamlit Target Group |
 
 👉 **One ALB, two applications**
+
+<p align="left">
+  <img src="../images/resource-map-4.png"
+       width="900"
+       style="border-radius: 15px; border: 1px solid #ddd;">
+</p>
 
 ---
 
@@ -210,6 +272,12 @@ Each task definition includes:
 | Streamlit Service | Keeps UI running |
 
 ✅ ECS Services register targets with ALB  
+
+<p align="left">
+  <img src="../images/mlops-cluster.png"
+       width="900"
+       style="border-radius: 15px; border: 1px solid #ddd;">
+</p>
 
 ---
 
