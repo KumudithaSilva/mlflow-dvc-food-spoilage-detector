@@ -28,10 +28,10 @@ The goal of this project is to create **impactful, scalable AI solutions** that 
 
 In modern food supply chains, spoilage often goes undetected until products reach supermarkets. This leads to:
 
-* ❌ Large financial losses
-* ❌ Inefficient procurement decisions
-* ❌ Increased food waste
-* ❌ Reduced consumer trust
+* Large financial losses
+* Inefficient procurement decisions
+* Increased food waste
+* Reduced consumer trust
 
 A simplified supply chain looks like:
 
@@ -45,10 +45,10 @@ Supermarkets typically purchase **entire lots of produce** without automated qua
 
 This project introduces an **AI‑driven quality inspection system** that enables **Distributors and Supermarkets** to:
 
-* 📸 Capture food images during procurement
-* 🤖 Automatically classify food as *fresh* or *spoiled*
-* 📊 Make data‑driven purchasing decisions **before bulk buying**
-* 🔁 Continuously improve models using production data
+* Capture food images during procurement
+* Automatically classify food as *fresh* or *spoiled*
+* Make data‑driven purchasing decisions **before bulk buying**
+* Continuously improve models using production data
 
 The result is a **scalable, automated, and auditable MLOps pipeline** capable of reducing food waste and improving supply‑chain efficiency.
 
@@ -58,25 +58,25 @@ The result is a **scalable, automated, and auditable MLOps pipeline** capable of
 
 Inspired by senior‑level software and MLOps practices, this system emphasizes:
 
-* 🛠️ **Maintainability** — clear modular boundaries, configuration‑driven pipelines
-* 🔄 **Reproducibility** — full experiment and data lineage via DVC & MLflow
-* 🧩 **Scalability** — cloud‑native deployment with containerized services
-* 🔐 **Security & Governance** — AWS IAM, Secrets Manager, and CI/CD controls
-* 📈 **Observability** — CloudWatch logging and structured metrics
+* **Maintainability** — clear modular boundaries, configuration‑driven pipelines
+* **Reproducibility** — full experiment and data lineage via DVC & MLflow
+* **Scalability** — cloud‑native deployment with containerized services
+* **Security & Governance** — AWS IAM, Secrets Manager, and CI/CD controls
+* **Observability** — CloudWatch logging and structured metrics
 
 ---
 
 ## ⚙️ System Capabilities
 
-* 📥 Multi‑source data ingestion (tracked with DVC)
-* 🧹 Automated preprocessing pipelines
-* 🧠 CNN‑based model training with TensorFlow
-* 📊 Experiment tracking with MLflow
-* ✅ Model evaluation & validation gates
-* 🔁 Model versioning and rollback via S3
-* 🌐 FastAPI inference service
-* 🖥️ Streamlit‑based UI for real‑time predictions
-* ☁️ Fully deployed on AWS ECS Fargate
+* Multi‑source data ingestion (tracked with DVC)
+* Automated preprocessing pipelines
+* CNN‑based model training with TensorFlow
+* Experiment tracking with MLflow
+* Model evaluation & validation gates
+* Model versioning and rollback via S3
+* FastAPI inference service
+* Streamlit‑based UI for real‑time predictions
+* Fully deployed on AWS ECS Fargate
 
 ---
 
@@ -161,13 +161,13 @@ Each stage is **fully reproducible and dependency‑aware**, enabling safe exper
 
 This repository implements a **robust GitHub Actions pipeline**:
 
-* ✅ Code quality checks (Flake8, Black, Isort)
-* 🔐 Security scanning (Bandit)
-* 📦 DVC data & model pull
-* 🧪 Automated testing with Pytest
-* ☁️ AWS authentication & ECR login
-* 🐳 Docker image build & push
-* 🚀 Production deployment trigger on `master`
+* Code quality checks (Flake8, Black, Isort)
+* Security scanning (Bandit)
+* DVC data & model pull
+* Automated testing with Pytest
+* AWS authentication & ECR login
+* Docker image build & push
+* Production deployment trigger on `master`
 
 This ensures **production readiness on every merge**.
 
@@ -225,11 +225,11 @@ mlflow-dvc-food-spoilage-detector/
 
 ## 🧭 Future Enhancements
 
-* 📊 Advanced model monitoring & drift detection
-* 🧠 Multi‑class spoilage classification
-* 🌍 Multi‑region deployment
-* 🔄 Automated retraining pipelines
-* 📱 Mobile‑friendly UI
+* Advanced model monitoring & drift detection
+* Multi‑class spoilage classification
+* Multi‑region deployment
+* Automated retraining pipelines
+* Mobile‑friendly UI
 
 ---
 
